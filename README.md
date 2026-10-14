@@ -6,7 +6,9 @@ EvidenceTrail helps researchers inspect extraction tables, compare two reviewers
 
 This is an early working prototype, version **0.2.0**. The included examples contain synthetic records. EvidenceTrail checks table structure and consistency; scientific accuracy still requires reviewing the sources.
 
-![EvidenceTrail displaying the five issues in its synthetic demonstration](docs/images/demo.jpg)
+**[Try the live browser demo](https://thethunda01.github.io/evidencetrail/)** · No account or installation needed. Start with the synthetic examples, or select a CSV that stays in your browser.
+
+![EvidenceTrail's live browser demo, with audit and reviewer comparison workspaces](docs/images/web-demo.jpg)
 
 ## Why this project exists
 
@@ -37,7 +39,7 @@ There are two ways to use EvidenceTrail:
 
 Both versions leave your input files unchanged and use temporary working state. Each file can be up to **5 MiB**, with up to **10,000 data rows** and **50 columns**. In the Python app, Excel workbooks also have a 25 MiB limit on expanded contents, and the selected sheet must contain values rather than formulas.
 
-The [hosting guide](docs/deployment.md) describes publishing the browser demo from this repository with GitHub Pages. No Streamlit account or separate application host is needed for that route. See [getting started](docs/getting-started.md) for the differences between versions.
+The [live demo](https://thethunda01.github.io/evidencetrail/) is published from this repository with GitHub Pages. The [hosting guide](docs/deployment.md) explains how it is maintained. See [getting started](docs/getting-started.md) for the differences between versions.
 
 ## Run the full app locally
 

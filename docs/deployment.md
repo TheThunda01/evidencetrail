@@ -2,6 +2,8 @@
 
 EvidenceTrail's browser demo is a static HTML, CSS, and JavaScript site. It can be published from this repository with **GitHub Pages**. No Streamlit account, Python server, database, API key, or separate hosting account is needed for this version.
 
+**Live app: [thethunda01.github.io/evidencetrail](https://thethunda01.github.io/evidencetrail/).** The public interface was checked on October 13, 2026 using the synthetic audit, clean-table, and reviewer examples, a CSV with renamed headers, decision downloads, session clearing, and desktop and phone-sized layouts.
+
 The browser demo accepts CSV files. The full Python app remains available for Excel input and audit ZIP exports; see the [local setup instructions](../README.md#run-the-full-app-locally).
 
 ## GitHub Pages settings
