@@ -6,6 +6,6 @@ type: software
 authors:
   - family-names: Huynh
     given-names: Brandon J.
-version: 0.1.0
+version: 0.2.0
 repository-code: "https://github.com/TheThunda01/evidencetrail"
 license: MIT

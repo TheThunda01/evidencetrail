@@ -1,6 +1,6 @@
 # Contributing to EvidenceTrail
 
-EvidenceTrail is a small research software prototype. Contributions are welcome when they make the checks clearer, the results easier to interpret, or the app easier to run.
+EvidenceTrail is a small research software prototype. Contributions are welcome when they make table checks, reviewer comparisons, and decision records clearer or easier to use.
 
 ## Start with a clear example
 
@@ -12,7 +12,7 @@ For a feature suggestion, explain the research task it supports and what a usefu
 
 ## Work locally
 
-Follow the installation instructions in the [README](README.md#run-it-locally). Make your changes on a branch in your fork or local checkout.
+Follow the installation instructions in the [README](README.md#run-the-full-app-locally). Make your changes on a branch in your fork or local checkout.
 
 Before submitting a change, run:
 
@@ -20,7 +20,15 @@ Before submitting a change, run:
 python -m unittest discover -s tests -v
 ```
 
-For an interface change, also run the app and inspect the affected path with synthetic data. Automated audit checks do not establish that the interface is readable or that its controls work as intended.
+For browser-code changes, also run the parity and boundary checks with Node.js 22 or later:
+
+```sh
+node --test tests/web-core.test.mjs
+```
+
+Use the [hosting guide](docs/deployment.md#preview-and-checks) to preview the static site. Its CSV-only workflow runs in browser memory; keep file contents out of network requests and persistent browser storage. These parity checks establish behavior on test cases, not effectiveness in research practice.
+
+For an interface change, run the app and inspect the affected path with synthetic data. Useful checks include loading CSV and Excel files, mapping nonstandard column names, handling ambiguous comparison keys, saving and replacing a decision, downloading outputs, and clearing the session. Automated checks do not establish that the interface is readable or that its controls work as intended.
 
 ## Keep the research boundary clear
 
@@ -33,6 +41,8 @@ Changes to a rule should include:
 - Automated checks for meaningful boundary cases.
 - Updates to the data dictionary or methods document when the user-facing behavior changes.
 
+Keep agreement, a user-recorded decision, and source verification distinct. Preserve both reviewers' source values and the input fingerprints in decision exports. Test missing and duplicate keys rather than silently pairing ambiguous records. Do not describe the current session log as an append-only history: saving again for a pair replaces its current decision.
+
 Do not introduce external data transfer, persistent storage of uploaded records, or automatic source retrieval without first documenting the need and its data-handling implications. These would change how researchers can use the app.
 
 ## Write for researchers
@@ -40,6 +50,8 @@ Do not introduce external data transfer, persistent storage of uploaded records,
 Use direct, familiar language. Name the affected column or row, explain what was found, and describe what the researcher can inspect next. Avoid promising that the tool validates evidence or guarantees a clean dataset.
 
 Keep examples synthetic and internally consistent. Distinguish implemented features from future ideas in documentation and pull requests.
+
+For research claims, link the primary source or official guidance and explain its limits. The [research review](docs/research-review-2026-10-13.md) records the rationale behind version 0.2.0. Findings from other software or extraction workflows are not evidence that EvidenceTrail improves accuracy or saves time. Those claims require a suitable evaluation of this app.
 
 ## Submit a focused pull request
 

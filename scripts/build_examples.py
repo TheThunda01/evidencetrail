@@ -43,6 +43,16 @@ def main():
     demo[7]["review_status"] = "Disagreement"
     write_csv(destination / "demo_records.csv", demo)
     write_csv(destination / "clean_records.csv", clean)
+    write_csv(destination / "reviewer_a.csv", clean)
+    second_reviewer = deepcopy(clean)
+    second_reviewer[0]["value"] = "Fictional regional health team"
+    second_reviewer[2].update(value="", evidence_status="Unclear", source_locator="")
+    second_reviewer[4]["source_locator"] = "Synthetic source, table 2"
+    second_reviewer.pop()
+    extra = deepcopy(clean[0])
+    extra.update(record_id="R021", report_id="SIM-006")
+    second_reviewer.append(extra)
+    write_csv(destination / "reviewer_b.csv", second_reviewer)
     write_csv(destination / "extraction_template.csv", [])
     expected = [
         {"code": "DUPLICATE_RECORD_ID", "row_numbers": [4, 5]},

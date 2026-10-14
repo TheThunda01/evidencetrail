@@ -93,6 +93,42 @@ class InputTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "could not be read"):
                     load_table("bad.xlsx", output.getvalue())
 
+    def test_xml_dtd_and_internal_entities_are_rejected_before_loading(self):
+        source = workbook_bytes()
+        declarations = [
+            b'<!DOCTYPE worksheet>',
+            b'<!DOCTYPE worksheet [<!ENTITY sample "harmless text">]>',
+        ]
+        for declaration in declarations:
+            output = BytesIO()
+            with ZipFile(BytesIO(source)) as original, ZipFile(output, "w", ZIP_DEFLATED) as changed:
+                for name in original.namelist():
+                    data = original.read(name)
+                    if name == "xl/worksheets/sheet1.xml":
+                        if b"ENTITY" in declaration:
+                            data = data.replace(b">NA<", b">&sample;<")
+                        data = declaration + data
+                    changed.writestr(name, data)
+            with self.subTest(declaration=declaration):
+                for operation in (list_sheets, lambda content: load_table("entities.xlsx", content)):
+                    with self.assertRaisesRegex(ValueError, "unsupported XML declarations or entities"):
+                        operation(output.getvalue())
+
+    def test_xml_preflight_covers_nonstandard_xml_extensions(self):
+        source = workbook_bytes()
+        output = BytesIO()
+        with ZipFile(BytesIO(source)) as original, ZipFile(output, "w", ZIP_DEFLATED) as changed:
+            for name in original.namelist():
+                data = original.read(name)
+                if name in ("[Content_Types].xml", "xl/_rels/workbook.xml.rels"):
+                    data = data.replace(b"sheet1.xml", b"sheet1.bin")
+                if name == "xl/worksheets/sheet1.xml":
+                    name = "xl/worksheets/sheet1.bin"
+                    data = b" " * 512 + b'<!DOCTYPE worksheet [<!ENTITY sample "harmless text">]>' + data
+                changed.writestr(name, data)
+        with self.assertRaisesRegex(ValueError, "unsupported XML declarations or entities"):
+            load_table("renamed-xml.xlsx", output.getvalue())
+
     def test_input_limits_apply_before_full_parsing(self):
         with self.assertRaisesRegex(ValueError, "5 MiB"):
             load_table("large.csv", b"x" * (MAX_UPLOAD_BYTES + 1))

@@ -2,6 +2,31 @@
 
 This file records user-facing changes. Version 0.1.0 is the initial working prototype.
 
+## 0.2.0 — October 13, 2026
+
+### Added
+
+- A CSV-only browser demo for GitHub Pages. Its audit, mapping, review summaries, comparison, and current-decision exports run in browser memory without sending selected file contents to a backend. The full Python app retains Excel input and audit ZIP exports.
+- Explicit mapping from source-column names to the seven required fields, without changing source values or translating status labels.
+- Recorded review-progress counts and evidence-completeness summaries by extraction field.
+- A reviewer-comparison workspace that matches records by report ID and field, reports unmatched records, and blocks missing or duplicated match keys.
+- Separate displays for differences in answers/evidence status and differences in source locations.
+- User-entered decisions with a reviewer name or identifier, rationale, selected answer or deferral, and timestamp. Saving again replaces the current decision for that pair.
+- Decision CSV and JSON downloads that preserve both reviewers' submitted values and input provenance; comparison and excluded-row CSV downloads.
+- An audit ZIP containing the summary, findings, field completeness, recorded review progress, and source manifest. The original upload and raw answer values are excluded.
+- A session-clearing control and synthetic reviewer examples alongside the original 20-row, five-finding audit demonstration.
+- An [evidence-informed research review](docs/research-review-2026-10-13.md), updated usage instructions, and documentation of comparison and decision-record limits.
+
+### Hardened
+
+- XLSX input rejects DTD declarations, entity definitions, and external entities using `defusedxml`, in addition to existing file-size, expanded-size, and formula restrictions.
+
+### Scope
+
+- Review statuses and decisions are supplied by researchers; the app does not verify sources or automatically resolve disagreements.
+- Current decisions live in session memory and are bound to the inputs, worksheets, and mappings. The app is not a persistent database or an append-only audit history.
+- Software checks and synthetic examples do not establish effectiveness in research practice.
+
 ## 0.1.0
 
 ### Added

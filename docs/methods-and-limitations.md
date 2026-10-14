@@ -1,22 +1,26 @@
 # Methods and limitations
 
-EvidenceTrail is a deterministic audit of a structured extraction table. It checks a defined set of file, header, and row conditions. It does not assess the scientific content of an article or perform evidence extraction.
+EvidenceTrail provides deterministic table checks, recorded-progress summaries, reviewer comparison, and user-entered decision records. It does not assess the scientific content of an article or perform evidence extraction. This document describes version **0.2.0**, which includes a CSV-only browser demo and a full Python app.
 
 ## Unit of checking
 
 One data row represents one extracted field from a report. The row has a unique `record_id`, while `report_id` links related rows to the same report. Repeated report identifiers are expected and are not treated as duplicates.
 
-For Excel workbooks, the audit applies to the selected sheet. It is not an audit of the entire workbook.
+Excel is supported by the Python app only. Its audit applies to the selected sheet, not the entire workbook.
 
 ## Input boundaries
 
-The supported inputs are comma-separated UTF-8 CSV, including UTF-8 with a byte-order mark, and Excel `.xlsx` workbooks. The prototype accepts a maximum file size of 5 MiB, 10,000 data rows, and 50 columns. The combined expanded contents of an Excel workbook must not exceed 25 MiB.
+Both versions support comma-separated UTF-8 CSV, including UTF-8 with a byte-order mark. Each accepts a maximum file size of 5 MiB, 10,000 data rows, and 50 columns. The Python app also supports Excel `.xlsx` workbooks, whose combined expanded contents must not exceed 25 MiB.
 
 The selected Excel sheet must contain values rather than formulas. Formula cells cause the input to be rejected; the app does not calculate formulas or substitute cached results. It does not execute workbook macros or follow external workbook links.
 
+Workbook XML is checked with `defusedxml` before loading. DTD declarations, entity definitions, and external entities are rejected. These checks limit known input risks; they are not a security certification of an uploaded file or its hosting environment.
+
 Required headers and status labels are documented in the [data dictionary](data-dictionary.md). Surrounding whitespace is ignored for comparisons; case and internal spacing remain significant. Literal strings such as `NA` and `null` remain text, so the application does not silently reinterpret those values as blank cells.
 
-## Checks in version 0.1.0
+The interface maps seven required fields to explicitly selected source columns. Exact canonical headers can be suggested; synonyms, meanings, and status translations are not inferred. Every required field needs a different source column, and mappings that collide with retained column names are rejected. Mapping operates on a copy without changing values or row order.
+
+## Audit checks
 
 | Check | Condition that produces a finding or input problem | Interpretation |
 | --- | --- | --- |
@@ -40,9 +44,27 @@ Finding row numbers follow spreadsheet numbering: row 1 is the header, and row 2
 
 ## What the report can establish
 
-The report records the problems detected by the current rules for the input provided. It includes the EvidenceTrail version and, for an Excel input, the selected worksheet. The SHA-256 fingerprint identifies the input file's bytes, helping distinguish file versions. It does not authenticate an author, establish provenance, or confirm scientific accuracy.
+Audit outputs record the problems detected by the current rules for the input provided. They identify source files and mapping choices; the Python report also records the application version and selected Excel worksheet when relevant. The SHA-256 fingerprint identifies the input file's bytes, helping distinguish file versions. It does not authenticate an author, establish the origin of research data, or confirm scientific accuracy.
 
 The synthetic demonstration has 20 data rows and five planted findings, described in the [expected-findings file](../examples/expected_findings.json). That known example makes the intended behavior easier to inspect; it is not evidence that the tool detects every possible table problem.
+
+## Progress and completeness
+
+Review progress counts the recorded `Pending`, `Verified`, and `Disagreement` labels. Blank or unrecognized labels are counted as invalid, so the counts sum to the number of records. These are not independently verified completion measures.
+
+Field completeness groups rows by `field`, including blank field labels. It counts each evidence status, unrecognized labels, missing values for `Reported`, and missing locators for `Reported` or `Explicitly absent`. Counts do not measure whether the source was searched adequately, the locator is useful, or the answer is correct. Multiple defects can occur in one row.
+
+## Reviewer comparison and decisions
+
+The interface matches two tables by `(report_id, field)`. Missing keys are excluded. If a key occurs more than once on either side, all rows with that key on both sides are excluded. The app does not choose among ambiguous matches. Usable keys found only on one side are reported separately.
+
+Matched rows agree only when their `value` and `evidence_status` match after trimming surrounding whitespace. Case and internal spacing remain significant. Different locators are reported independently of answer agreement. Comparison and decision exports contain this trimmed text, rather than the original cell formatting. This is a text comparison, not semantic interpretation, an accuracy estimate, or an agreement statistic adjusted for chance. Review statuses, reviewer names, and notes do not determine the comparison result.
+
+A researcher can select either reviewer's result, enter a different result, or defer. Every decision requires a name or identifier and rationale. Selected results must meet the documented status, value, and locator requirements. These checks do not establish source support.
+
+Decisions are bound to both input-file hashes, mappings, and selected worksheets where relevant. Changing the comparison clears the current decision log; returning to the previous inputs does not restore it. Saving a decision for a pair replaces its previous decision in the current session. It does not create an append-only history or rewrite the input tables. Recorded decisions do not automatically mark source rows as verified. Downloaded files capture the state at the time of export and can subsequently be edited outside the app.
+
+Sessions are temporary. Download needed decisions before leaving or changing comparison inputs. The clear control is **Clear session** in the browser and **Clear this session** in Python. Neither version provides persistent storage, a decision-import workflow, or guaranteed recovery after the page or app closes.
 
 ## What the report cannot establish
 
@@ -54,28 +76,46 @@ EvidenceTrail does not:
 - Check whether a source location exists or supports the claim.
 - Open URLs, verify link availability, or retrieve material from the internet.
 - Determine whether two reports describe the same study, programme, configuration, or system.
-- Verify that a reviewer actually completed a check or resolve disagreements.
+- Verify that a reviewer actually completed a check or decide how to resolve disagreements.
 - Assess risk of bias, grade evidence, or establish that a review follows a reporting guideline.
 
 In particular, **zero findings means that no problems were detected by these checks**. It does not mean that the table is ready for publication or that the evidence has been validated.
 
-## Data handling and exports
+## Data handling
 
-The app processes uploaded tables in memory. Its application code does not intentionally write uploads to disk, persist extraction tables in an application cache, or send records to an external analysis service. The original input is not edited.
+The **browser demo** reads selected CSV files and holds working tables and decisions in browser memory. It does not upload their contents, save records in browser storage, or use an analysis backend. Its code and styles are included in the site rather than supplied by a third-party CDN. The static host still receives requests for the page, scripts, and example files. [GitHub documents](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection) its ordinary visitor IP logging.
 
-Local use processes records on the machine running the app. In a hosted deployment, that machine is the host's server. Runtime infrastructure, administrators, browser downloads, and the user's own storage practices are outside the audit rules. The prototype does not provide authentication, access controls, or a secure research data repository.
+The **Python app** processes uploaded tables and current decisions on the machine running it. Its application code does not intentionally save uploads to disk, retain a persistent research database, or send records to an external analysis service. When it runs locally, that machine is the user's computer; a remotely hosted Python instance receives the uploaded files on its server. Administrators and hosting infrastructure may have access to runtime data.
 
-CSV exports and table previews prefix formula-like text with an apostrophe to reduce the risk of spreadsheet formula interpretation. This applies to strings beginning with `=`, `+`, `-`, or `@`, including after leading whitespace. Preview column names receive the same protection; if this makes two names identical, a display suffix distinguishes them. Numeric cells remain numeric. These transformations affect the display or export, not the audit's input values or the uploaded file. Downloaded material can still contain research content and should be handled accordingly.
+Neither version edits the original files, provides authentication or a persistent research repository, or controls the user's downloaded copies. Browser extensions, device security, and external storage practices are outside these checks.
 
-The findings CSV includes identifiers and field names associated with findings, but does not export the complete input table. The Markdown summary includes the software version, source filename, selected Excel worksheet when applicable, fingerprint, aggregate counts, rule counts, and interpretation guidance. It omits individual record IDs, field names, and extracted values. Source filenames and worksheet names may themselves contain sensitive information, so inspect either output before sharing it.
+## Exports
 
-On-screen filters affect the visible findings only. Both downloaded outputs describe the full audit.
+Both versions prefix formula-like text with an apostrophe in CSV exports to reduce the risk of spreadsheet formula interpretation. This applies to strings beginning with `=`, `+`, `-`, or `@`, including after leading whitespace. The Python app also applies this protection to table previews; the browser renders cells as text. Python preview column names receive the same protection, with suffixes if needed to keep them distinct. Numeric Python cells remain numeric; CSV input cells are text. These transformations do not change the original file or the values used in checks.
+
+The browser demo provides findings CSV, audit JSON, comparison CSV/JSON, and decision CSV/JSON. Audit JSON contains findings, counts, field completeness, source fingerprints, and mapping choices; it excludes the complete source table. Comparison JSON also includes excluded-key issues and input provenance. The browser has no Markdown summary or ZIP export.
+
+The following filenames and bundle details describe the Python app:
+
+| Export | Included information |
+| --- | --- |
+| Findings CSV | Finding codes, severity, row numbers, record IDs, field labels, explanations, and next steps; not the complete source table. |
+| Markdown audit summary | Version, filename, worksheet when relevant, fingerprint, mapping, aggregate counts, rule counts, and interpretation guidance. It omits individual record IDs, extraction field labels, and raw answers, but includes mapped source-column names. |
+| Audit ZIP bundle | `audit-summary.md`, `findings.csv`, `field-completeness.csv`, `review-progress.json`, and `source-manifest.json`. The manifest records inputs, mappings, checked rules, software version, and export time. |
+| Reviewer comparison downloads | Compared records and their submitted values, evidence statuses, and locators; blocked-key information is separate. |
+| Decision CSV and JSON | Both reviewers' answers and locators as used in comparison, the current decision, reviewer, rationale, timestamp, and input provenance. JSON retains comparison text without CSV escaping; CSV applies spreadsheet escaping. |
+
+The audit bundle excludes the original upload and raw extracted answer values. It still contains record IDs, field labels, filenames, worksheet names, and mappings. Decision and comparison exports include research content. None of these outputs should be treated as anonymized or automatically suitable for public sharing.
+
+On-screen finding filters affect the visible findings only. Audit downloads describe the full audit.
 
 ## Reproducibility
 
-Keep the audit output together with the exact input version, the EvidenceTrail version, and any subsequent correction history. Re-run the audit when the table changes. A prior report describes the prior file, even if the filename stays the same.
+Keep audit and decision outputs together with the exact input versions, the EvidenceTrail version, and your project's correction history. Re-run checks when a table changes. A prior report describes the prior file, even if the filename stays the same. The app's current-decision records are not a substitute for a durable history maintained by the research team.
 
-Automated checks use small, known inputs to exercise the audit rules. They verify software behavior under those conditions; they are not a scientific validation study or a substitute for researcher review.
+Automated checks use small, known inputs to exercise the audit rules. Browser parity tests compare defined examples against the Python implementation. These checks verify software behavior under those conditions; they are not a scientific validation study or a substitute for researcher review.
+
+The [research review](research-review-2026-10-13.md) documents the evidence and guidance behind these priorities, existing alternatives, and a proposed user pilot. It is not an exhaustive review, and it does not establish that EvidenceTrail reduces extraction errors or workload.
 
 ## Choosing a next action
 

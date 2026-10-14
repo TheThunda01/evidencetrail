@@ -3,8 +3,11 @@
 import csv
 from io import BytesIO, StringIO
 from pathlib import Path
+from xml.etree.ElementTree import ParseError
 from zipfile import BadZipFile, ZipFile
 
+from defusedxml import ElementTree as safe_xml
+from defusedxml.common import DefusedXmlException
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.utils.exceptions import InvalidFileException
@@ -30,7 +33,33 @@ def _open_xlsx(content: bytes):
         with ZipFile(BytesIO(content)) as archive:
             if sum(item.file_size for item in archive.infolist()) > MAX_EXPANDED_BYTES:
                 raise ValueError("The expanded workbook is too large. The limit is 25 MiB.")
-    except (BadZipFile, InvalidFileException, KeyError, OSError, EOFError) as exc:
+            # Preflight every XML member before openpyxl reads the archive. This
+            # remains protective even if its optional safe parser is disabled.
+            # Clear completed elements to keep preflight memory bounded.
+            for member in archive.infolist():
+                with archive.open(member) as source:
+                    prefix = source.read(256)
+                    # Relationships can point to XML with a nonstandard file
+                    # extension. Recognize XML signatures too, including BOMs
+                    # and the zero bytes in UTF-16/UTF-32 encodings.
+                    signature = prefix.lstrip(b" \t\r\n\x00\xef\xbb\xbf\xff\xfe")
+                    while prefix and not signature:
+                        prefix = source.read(4096)
+                        signature = prefix.lstrip(b" \t\r\n\x00\xef\xbb\xbf\xff\xfe")
+                    looks_like_xml = signature.startswith(b"<")
+                    if not member.filename.lower().endswith((".xml", ".rels")) and not looks_like_xml:
+                        continue
+                    source.seek(0)
+                    for _, element in safe_xml.iterparse(
+                        source, events=("end",), forbid_dtd=True,
+                        forbid_entities=True, forbid_external=True,
+                    ):
+                        element.clear()
+    except DefusedXmlException as exc:
+        raise ValueError("This workbook contains unsupported XML declarations or entities. Save a new XLSX copy and try again.") from exc
+    except ParseError as exc:
+        raise ValueError("This file could not be read as an XLSX workbook. Save it as .xlsx and try again.") from exc
+    except (BadZipFile, InvalidFileException, KeyError, OSError, EOFError, RuntimeError, NotImplementedError) as exc:
         raise ValueError("This file could not be read as an XLSX workbook. Save it as .xlsx and try again.") from exc
     try:
         return load_workbook(BytesIO(content), read_only=True, data_only=False, keep_links=False)

@@ -1,0 +1,21 @@
+record_id,report_id,field,value,evidence_status,source_locator,review_status,reviewer,notes
+R001,SIM-001,Responsible organization,Fictional regional health team,Reported,"Synthetic source, section 1",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R002,SIM-001,Data sources,Synthetic human and animal case reports,Reported,"Synthetic source, section 2",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R003,SIM-001,Information exchange,,Unclear,,Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R004,SIM-001,Public health action,Synthetic example of a joint review meeting,Reported,"Synthetic source, section 4",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R005,SIM-002,Responsible organization,Fictional district health team,Reported,"Synthetic source, table 2",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R006,SIM-002,Data sources,Synthetic human and animal case reports,Reported,"Synthetic source, section 2",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R007,SIM-002,Information exchange,Weekly summary shared with a fictional partner,Reported,"Synthetic source, section 3",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R008,SIM-002,Public health action,Synthetic example of a joint review meeting,Reported,"Synthetic source, section 4",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R009,SIM-003,Responsible organization,Fictional district health team,Reported,"Synthetic source, section 1",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R010,SIM-003,Data sources,,Not reported,,Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R011,SIM-003,Information exchange,Weekly summary shared with a fictional partner,Reported,"Synthetic source, section 3",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R012,SIM-003,Public health action,The fictional example explicitly states no shared review took place.,Explicitly absent,"Synthetic source, section 4",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R013,SIM-004,Responsible organization,Fictional district health team,Reported,"Synthetic source, section 1",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R014,SIM-004,Data sources,,Unclear,,Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R015,SIM-004,Information exchange,Weekly summary shared with a fictional partner,Reported,"Synthetic source, section 3",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R016,SIM-004,Public health action,Synthetic example of a joint review meeting,Reported,"Synthetic source, section 4",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R017,SIM-005,Responsible organization,Fictional district health team,Reported,"Synthetic source, section 1",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R018,SIM-005,Data sources,,Not applicable,,Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R019,SIM-005,Information exchange,Weekly summary shared with a fictional partner,Reported,"Synthetic source, section 3",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
+R021,SIM-006,Responsible organization,Fictional district health team,Reported,"Synthetic source, section 1",Pending,Demo reviewer,Fictional record for software testing. Not a real study.
