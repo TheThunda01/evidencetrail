@@ -1,0 +1,33 @@
+[
+  {
+    "code": "DUPLICATE_RECORD_ID",
+    "row_numbers": [
+      4,
+      5
+    ]
+  },
+  {
+    "code": "MISSING_SOURCE_LOCATOR",
+    "row_numbers": [
+      6
+    ]
+  },
+  {
+    "code": "INVALID_EVIDENCE_STATUS",
+    "row_numbers": [
+      7
+    ]
+  },
+  {
+    "code": "MISSING_REPORTED_VALUE",
+    "row_numbers": [
+      8
+    ]
+  },
+  {
+    "code": "REVIEWER_DISAGREEMENT",
+    "row_numbers": [
+      9
+    ]
+  }
+]

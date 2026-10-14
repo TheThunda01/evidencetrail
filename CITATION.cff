@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use EvidenceTrail in your work, please cite this software."
+title: EvidenceTrail
+abstract: "A small research tool that checks extraction tables for structural errors and records needing human review."
+type: software
+authors:
+  - family-names: Huynh
+    given-names: Brandon J.
+version: 0.1.0
+repository-code: "https://github.com/TheThunda01/evidencetrail"
+license: MIT
