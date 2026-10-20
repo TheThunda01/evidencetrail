@@ -14,13 +14,13 @@ This is an early working prototype, version **0.3.0**. The included examples con
 
 ![EvidenceTrail's live browser demo, with audit and reviewer comparison workspaces](docs/images/web-demo.jpg)
 
-## Why this project exists
+## Why this project
 
 Evidence extraction involves more than copying an answer into a spreadsheet. A useful record also needs a clear connection to a report, an honest account of what the source says, and a way to track review. Small inconsistencies in those records can make later synthesis harder.
 
 EvidenceTrail makes a first pass at those inconsistencies visible. A researcher still decides what needs correction and verifies the evidence against the source.
 
-## What the prototype does
+## What it does
 
 - Reads extraction tables, with explicit mapping from your column names to seven required fields.
 - Checks identifiers, status labels, values, and source locations, with explanations and suggested next steps.
@@ -30,6 +30,7 @@ EvidenceTrail makes a first pass at those inconsistencies visible. A researcher 
 - Shows how much of each table could be paired and how often nonblank entries match, with the counts behind each rate.
 - Records your choice, name or identifier, and reason for a reviewer decision, while preserving both submitted answers.
 - Exports findings and reviewer decision records with input-file fingerprints and other provenance. The Python app also provides an audit ZIP bundle.
+- Adds a SHA-256 manifest to Python audit bundles, with an offline verifier for missing or changed payloads.
 - Includes a 20-row demonstration with five planted findings, a clean table, a blank template, and paired reviewer examples.
 
 There are two ways to use EvidenceTrail:
@@ -47,7 +48,7 @@ Both versions leave your input files unchanged and use temporary working state. 
 
 The [live demo](https://thethunda01.github.io/evidencetrail/) is published from this repository with GitHub Pages. The [hosting guide](docs/deployment.md) explains how it is maintained. See [getting started](docs/getting-started.md) for the differences between versions.
 
-## Run the full app locally
+## Quick start
 
 You need Python **3.10 or later** and Git. Open a terminal, then run:
 
@@ -82,7 +83,22 @@ Open the local address printed in the terminal. The [getting-started guide](docs
 
 The **Audit a table** workspace opens with **Demo with five issues** selected. Review the findings, compare the **Clean example**, or choose **Upload a file** to check your own table. The [demo's expected-findings file](examples/expected_findings.json) records the deliberately planted issues.
 
-## Table format
+To make and check a synthetic audit bundle from the command line:
+
+```sh
+python scripts/bundle_example.py /tmp/evidencetrail-demo.zip
+python -m evidencetrail.verify_bundle /tmp/evidencetrail-demo.zip
+```
+
+Choose a new output path: the example builder refuses to overwrite a file. The verifier checks five payload files against an unsigned manifest; it does not authenticate the reviewer or the evidence.
+
+## Example results
+
+The synthetic audit contains 20 rows and five deliberately planted findings. The reviewer example yields 19 comparable pairs, 17 exact agreements and two differences. These are software fixtures, not research results. The bundle verifier reports five checked payloads and `consistent: true` for an unmodified new bundle; changing a payload without updating its manifest produces a mismatch.
+
+## Practical use and limitations
+
+### Table format
 
 Use **one row per extracted field**. Each row has its own `record_id`; several rows can share a `report_id` when they describe the same report.
 
@@ -100,7 +116,7 @@ Your source columns can have different names: map each one to its role in the ap
 
 For reviewer comparison, each combination of `report_id` and `field` must occur once in each table. The reviewers' `record_id` values can differ. Missing or ambiguous comparison keys are blocked rather than paired automatically.
 
-## What a finding means
+### What a finding means
 
 A finding is a reason to inspect a record. For example, a row marked `Reported` with no source location needs a source check. A duplicated `record_id` needs a decision about the identifiers or the rows. A `Disagreement` needs researcher review.
 
@@ -110,7 +126,7 @@ Findings distinguish required table corrections from missing supporting informat
 
 The [methods and limitations](docs/methods-and-limitations.md) explain exactly what the checks cover.
 
-## Compare reviewers and record decisions
+### Compare reviewers and record decisions
 
 Choose **Compare reviewers** and load the reviewer demo: **Load reviewer demo** in each browser panel, or **Demo reviewers** in the Python app. The underlying [reviewer_a.csv](examples/reviewer_a.csv) and [reviewer_b.csv](examples/reviewer_b.csv) contain 19 comparable pairs: 17 agree on answer and evidence status, and two differ. Each table also has one unmatched record. Two matched pairs use different source locations.
 
@@ -122,7 +138,7 @@ For a matched pair, you can use either reviewer's answer, enter a different answ
 
 Decisions do not alter the source tables or automatically mark their rows as `Verified`. A recorded decision is your documented choice, not source verification performed by the app.
 
-## Data handling
+### Data handling
 
 Both versions keep working data and current reviewer decisions in memory. They do not fetch source links or send records to an external analysis service. Downloaded files are saved wherever you choose in your browser.
 
@@ -132,7 +148,22 @@ In the **browser demo**, selected CSV contents and decisions stay in browser mem
 
 In the **Python app**, processing occurs on the machine running it. A local session uses your computer; a separately hosted instance sends uploaded files to that host, where administrators and infrastructure may have access to runtime data. The repository examples are synthetic; do not add participant data or confidential research records to the public repository. Neither version is a persistent research repository.
 
-## Check the code
+## Documentation
+
+| Page | Purpose |
+| --- | --- |
+| [Project context](docs/project-context.md) | Background, rationale, and key themes |
+| [Biology and concepts](docs/biology-and-concepts.md) | Studies, reports, missingness, agreement, and certainty |
+| [Methods and limitations](docs/methods-and-limitations.md) | Exact checks, denominators, and boundaries |
+| [Data provenance](docs/data-provenance.md) | Synthetic examples and user-supplied records |
+| [Practical use](docs/practical-use.md) | Input/output contract and worked handoff |
+| [Sources and earlier review](docs/research-review-2026-10-13.md) | Prior evidence and related tools |
+| [Rapid literature review](docs/literature-review.md) | Search record, source appraisal, and implementation decisions |
+| [Getting started](docs/getting-started.md) / [Data dictionary](docs/data-dictionary.md) | App walkthrough and allowed values |
+
+## Development and reuse
+
+### Check the code
 
 Run the Python checks from the project directory:
 
@@ -148,7 +179,7 @@ node --test tests/web-core.test.mjs
 
 The browser parity tests compare known examples with the Python implementation. They check software behavior, not effectiveness in real reviews. For ways to help, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Research basis and next steps
+### Research basis and next steps
 
 The [research review](docs/research-review-2026-10-13.md) explains the scientific and practical guidance behind the expansion, including where established tools already address these needs. This is an evidence-informed design, not a validated intervention.
 
@@ -156,6 +187,8 @@ Future work could add configurable validation schemas, additional table structur
 
 See [CHANGELOG.md](CHANGELOG.md) for the version history.
 
-## Reuse and citation
+### Reuse and citation
 
 The code is available under the [MIT license](LICENSE). If you use EvidenceTrail in research, the repository includes [citation metadata](CITATION.cff). Record the version you used so others can identify the same implementation.
+
+The current [rapid review](docs/literature-review.md) documents why the new bundle check focuses on an inspectable handoff, without claiming reduced error rates.

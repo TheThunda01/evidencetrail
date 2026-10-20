@@ -13,6 +13,7 @@ from evidencetrail.comparison import compare_tables
 from evidencetrail.io import load_table
 from evidencetrail.progress import evidence_completeness, review_progress
 from evidencetrail.reports import audit_bundle
+from evidencetrail.bundle import verify_bundle
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -24,8 +25,9 @@ class BundleTests(unittest.TestCase):
         source = {"filename": "demo.csv", "sha256": sha256(content).hexdigest(), "worksheet": None,
                   "column_mapping": {"record_id": "Row ID"}}
         data = audit_bundle(audit_table(frame), source, review_progress(frame), evidence_completeness(frame))
+        self.assertTrue(verify_bundle(data)["consistent"])
         with ZipFile(BytesIO(data)) as archive:
-            self.assertEqual(set(archive.namelist()), {"audit-summary.md", "findings.csv", "source-manifest.json", "review-progress.json", "field-completeness.csv"})
+            self.assertEqual(set(archive.namelist()), {"audit-summary.md", "findings.csv", "source-manifest.json", "review-progress.json", "field-completeness.csv", "artifact-manifest.json"})
             manifest = json.loads(archive.read("source-manifest.json"))
             self.assertEqual(manifest["source"], source)
             self.assertEqual(manifest["version"], __version__)

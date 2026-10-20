@@ -12,6 +12,7 @@ import pandas as pd
 
 from . import __version__
 from .audit import AuditResult, FINDING_COLUMNS
+from .bundle import payload_manifest
 
 
 def _spreadsheet_safe(value: object) -> str:
@@ -166,10 +167,15 @@ def audit_bundle(result: AuditResult, source_metadata: dict, review_counts: dict
         sheet_name=source_metadata.get("worksheet"), column_mapping=source_metadata.get("column_mapping"),
         review_counts=review_counts)
     output = BytesIO()
+    payloads = {
+        "audit-summary.md": summary.encode("utf-8"),
+        "findings.csv": findings_csv(result),
+        "source-manifest.json": json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8"),
+        "review-progress.json": json.dumps(review_counts, indent=2).encode("utf-8"),
+        "field-completeness.csv": spreadsheet_safe_frame(completeness).to_csv(index=False).encode("utf-8-sig"),
+    }
     with ZipFile(output, "w", compression=ZIP_DEFLATED) as archive:
-        archive.writestr("audit-summary.md", summary)
-        archive.writestr("findings.csv", findings_csv(result))
-        archive.writestr("source-manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
-        archive.writestr("review-progress.json", json.dumps(review_counts, indent=2))
-        archive.writestr("field-completeness.csv", spreadsheet_safe_frame(completeness).to_csv(index=False).encode("utf-8-sig"))
+        for name, data in payloads.items():
+            archive.writestr(name, data)
+        archive.writestr("artifact-manifest.json", json.dumps(payload_manifest(payloads), indent=2))
     return output.getvalue()

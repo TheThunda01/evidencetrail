@@ -1,0 +1,400 @@
+{
+  "search_date": "2026-10-20",
+  "scope": "Bounded rapid practice review to guide one inspectable software improvement; not a complete systematic review.",
+  "inclusion_criteria": [
+    "Recent 2022\u20132026 publications about the relevant review method or workflow",
+    "Primary methodological evaluations preferred; official technical/reporting guidance retained regardless of date",
+    "Direct relevance to traceability, review records, or practical handoff"
+  ],
+  "exclusion_criteria": [
+    "Clinical reviews merely mentioning the method without evaluating it",
+    "Case-specific correspondence without a transferable method",
+    "Sources not selected within the predeclared small appraisal set are logged, not claimed irrelevant"
+  ],
+  "project": "evidencetrail",
+  "baseline_head": "137d950bc840f56e81a126aff69c420a176f7f04",
+  "searches": [
+    {
+      "id": "ev1",
+      "source": "PubMed connector",
+      "query": "(\"systematic review\"[Title/Abstract]) AND (\"data extraction\"[Title/Abstract]) AND (errors[Title/Abstract] OR reproducib*[Title/Abstract])",
+      "date_from": "2022/01/01",
+      "date_to": "2026/10/20",
+      "date_type": "publication",
+      "sort": "relevance",
+      "offset": 0,
+      "max_results": 10,
+      "max_abstract_chars": 3500,
+      "max_nested_results": 8,
+      "query_translation": "\"systematic review\"[Title/Abstract] AND \"data extraction\"[Title/Abstract] AND (\"errors\"[Title/Abstract] OR \"reproducib*\"[Title/Abstract]) AND 2022/01/01:2026/10/20[Date - Publication]",
+      "total_results": 293,
+      "returned_count": 10,
+      "retrieved_ids": [
+        "39499515",
+        "35416941",
+        "35853198",
+        "36321557",
+        "35536159",
+        "40306923",
+        "37019461",
+        "40826741",
+        "41031474",
+        "36260324"
+      ],
+      "has_more": true,
+      "next_offset": 10,
+      "pagination_used": false,
+      "field_pages": [
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 10,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.39499515.mesh_terms",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 15,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.35416941.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 3500,
+          "total_count": 32046,
+          "next_offset": 3500,
+          "has_more": true,
+          "field": "articles.36321557.abstract",
+          "unit": "characters"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 14,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.36321557.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 21,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.36321557.mesh_terms",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 9,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.40826741.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 9,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.36260324.authors",
+          "unit": "items"
+        }
+      ],
+      "limits": "Only offset 0, first 10 by relevance screened; nested authors/MeSH not continued. Nonselected truncated abstracts not fully appraised."
+    },
+    {
+      "id": "ev2",
+      "source": "PubMed connector",
+      "query": "\"data extraction\"[Title] AND (review*[Title] OR meta-analysis[Title])",
+      "date_from": "2022/01/01",
+      "date_to": "2026/10/20",
+      "date_type": "publication",
+      "sort": "relevance",
+      "offset": 0,
+      "max_results": 10,
+      "max_abstract_chars": 5000,
+      "max_nested_results": 8,
+      "query_translation": "\"data extraction\"[Title] AND (\"review*\"[Title] OR \"meta-analysis\"[Title]) AND 2022/01/01:2026/10/20[Date - Publication]",
+      "total_results": 55,
+      "returned_count": 10,
+      "retrieved_ids": [
+        "41183336",
+        "39829248",
+        "36547951",
+        "42790183",
+        "36547949",
+        "41626895",
+        "42863228",
+        "39220382",
+        "34749836",
+        "40661122"
+      ],
+      "has_more": true,
+      "next_offset": 10,
+      "pagination_used": false,
+      "field_pages": [
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 18,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.41183336.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 13,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.39829248.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 20,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.41626895.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 10,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.41626895.mesh_terms",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 8,
+          "total_count": 24,
+          "next_offset": 8,
+          "has_more": true,
+          "field": "articles.34749836.authors",
+          "unit": "items"
+        }
+      ],
+      "limits": "Only offset 0, first 10 by relevance screened; nested authors/MeSH not continued. Nonselected truncated abstracts not fully appraised."
+    },
+    {
+      "id": "official-guidance",
+      "source": "Targeted web opens",
+      "total_results": null,
+      "count_meaning": "Search universe not enumerated; specified documents only.",
+      "retrieved_ids": [
+        "https://www.rfc-editor.org/rfc/rfc8493",
+        "https://training.cochrane.org/handbook/current/chapter-05"
+      ],
+      "limits": "Selected official guidance and specifications; not an exhaustive supplementary search."
+    }
+  ],
+  "screening": [
+    {
+      "search_id": "ev1",
+      "pmid": "39499515",
+      "title": "Nurse Burnout and Patient Safety, Satisfaction, and Quality of Care: A Systematic Review and Meta-Analysis.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "35416941",
+      "title": "Association Between Physical Activity and Risk of Depression: A Systematic Review and Meta-analysis.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "35853198",
+      "title": "Critical Appraisal of a Systematic Review: A Concise Review.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "36321557",
+      "title": "Folic acid supplementation and malaria susceptibility and severity among people taking antifolate antimalarial drugs in endemic areas.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "35536159",
+      "title": "Effectiveness of diagnosing pulpitis: A systematic review.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "40306923",
+      "title": "Use of structured handoff protocols for within-hospital unit transitions: a systematic review from Making Healthcare Safer IV.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "37019461",
+      "title": "Ambient air pollution and clinical dementia: systematic review and meta-analysis.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "40826741",
+      "title": "A comprehensive guide to conduct a systematic review and meta-analysis in medical research.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "41031474",
+      "title": "Assessing the Effectiveness of Interventions Implemented by Nurses to Reduce Medication Administration Errors in Hospitalised Acute Adult Patient Settings: Systematic Review and Meta-Analysis.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev1",
+      "pmid": "36260324",
+      "title": "Efficacy and Safety of Ketamine vs Electroconvulsive Therapy Among Patients With Major Depressive Episode: A Systematic Review and Meta-analysis.",
+      "decision": "not_selected",
+      "reason": "Initial query title screening: not selected for the focused methodological appraisal.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "41183336",
+      "title": "Artificial Intelligence-Assisted Data Extraction With a Large Language Model: A Study Within Reviews.",
+      "decision": "selected",
+      "reason": "Direct recent evaluation of the method relevant to software scope.",
+      "access": "Complete abstract and citation; full text not appraised."
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "39829248",
+      "title": "Methods for data extraction and data transformation in convergent integrated mixed methods systematic reviews.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "36547951",
+      "title": "Questions About Study Selection, Data Extraction, and Synthesis in the Meta-analysis Comparing Total Thyroidectomy vs Hemithyroidectomy for Treatment of Papillary Thyroid Microcarcinoma.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "42790183",
+      "title": "Study identification, data extraction, and inter-bout interval classification in a meta-analysis of short-bout accumulated exercise.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "36547949",
+      "title": "Questions About Study Selection, Data Extraction, and Synthesis in the Meta-analysis Comparing Total Thyroidectomy vs Hemithyroidectomy for Treatment of Papillary Thyroid Microcarcinoma-Reply.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "41626895",
+      "title": "Automating the data extraction process for systematic reviews using GPT-4o and o3.",
+      "decision": "selected",
+      "reason": "Direct recent evaluation of the method relevant to software scope.",
+      "access": "Complete abstract and first 12,000 of 36,578 full-text body characters; remainder not appraised."
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "42863228",
+      "title": "Study identification, data extraction, and inter-bout interval classification in a meta-analysis of short-bout accumulated exercise.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "39220382",
+      "title": "(Semi)automated approaches to data extraction for systematic reviews and meta-analyses in social sciences: A living review.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "34749836",
+      "title": "Impact of data extraction errors in meta-analyses on the association between depression and peripheral inflammatory biomarkers: an umbrella review.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    },
+    {
+      "search_id": "ev2",
+      "pmid": "40661122",
+      "title": "Using Artificial Intelligence Tools as Second Reviewers for Data Extraction in Systematic Reviews: A Performance Comparison of Two AI Tools Against Human Reviewers.",
+      "decision": "not_selected",
+      "reason": "Title screening: outside the two-publication detailed-appraisal limit or not direct fit for this implementation.",
+      "access": "Title screening; no full-text appraisal"
+    }
+  ],
+  "appraisal_limit": "Title screening of first 10 relevance-ranked results from each of two queries; detailed appraisal of two selected current methodological publications plus official guidance. Remaining pages not screened.",
+  "access_attempts": [
+    {
+      "source": "PubMed full-text connector",
+      "ids": [
+        "PMC13091441",
+        "PMC12823200"
+      ],
+      "outcome": "Internal tool error; abstracts used, no full-text claims."
+    },
+    {
+      "source": "web",
+      "url": "https://github.com/LibraryOfCongress/bagit-python/tree/v1.9.0",
+      "outcome": "Restricted fetch; not inspected, not relied on, no code copied."
+    },
+    {
+      "source": "PubMed full-text connector retry",
+      "id": "PMC13091441",
+      "outcome": "Internal error again; abstract-only appraisal."
+    },
+    {
+      "source": "PubMed full-text connector retry",
+      "id": "PMC12823200",
+      "outcome": "First 12,000 of 36,578 body characters retrieved; no continuation."
+    }
+  ],
+  "counts": {
+    "search_pages": 2,
+    "returned_records": 20,
+    "unique_title_screened_ids": 20,
+    "current_publications_appraised": 2,
+    "official_sources_appraised": 2
+  }
+}

@@ -2,6 +2,12 @@
 
 This file records user-facing changes. Version 0.1.0 is the initial working prototype.
 
+## Unreleased — advancement round, October 20, 2026
+
+- Added a custom SHA-256 payload manifest to new Python audit ZIPs and an offline verification CLI. Checks establish byte consistency, not scientific verification or source authenticity.
+- Added malformed-package, changed-payload, CLI and manifest-boundary tests; existing audit and comparison definitions remain unchanged.
+- Standardized README navigation and documented practical use, data provenance, a bounded rapid review, and exact search/screening records.
+
 ## 0.3.0 — October 20, 2026
 
 ### Added

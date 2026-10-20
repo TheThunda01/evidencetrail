@@ -113,7 +113,7 @@ The following filenames and bundle details describe the Python app:
 | --- | --- |
 | Findings CSV | Finding codes, severity, row numbers, record IDs, field labels, explanations, and next steps; not the complete source table. |
 | Markdown audit summary | Version, filename, worksheet when relevant, fingerprint, mapping, aggregate counts, rule counts, and interpretation guidance. It omits individual record IDs, extraction field labels, and raw answers, but includes mapped source-column names. |
-| Audit ZIP bundle | `audit-summary.md`, `findings.csv`, `field-completeness.csv`, `review-progress.json`, and `source-manifest.json`. The manifest records inputs, mappings, checked rules, software version, and export time. |
+| Audit ZIP bundle | `audit-summary.md`, `findings.csv`, `field-completeness.csv`, `review-progress.json`, `source-manifest.json`, and `artifact-manifest.json`. The source manifest records inputs, mappings, checked rules, software version, and export time. |
 | Reviewer comparison downloads | Compared records and their submitted values, evidence statuses, and locators; blocked-key information is separate. |
 | Decision CSV and JSON | Both reviewers' answers and locators as used in comparison, the current decision, reviewer, rationale, timestamp, and input provenance. JSON retains comparison text without CSV escaping; CSV applies spreadsheet escaping. |
 
@@ -132,3 +132,8 @@ The [research review](research-review-2026-10-13.md) documents the evidence and 
 ## Choosing a next action
 
 Treat findings as prompts for inspection. Correct mechanical issues only when the intended value is known. For evidence-dependent issues, return to the source and document the decision using your review's procedures. Preserve uncertainty where the source does not support a confident conclusion.
+
+
+## Export integrity check added after 0.3.0
+
+New Python audit ZIPs add `artifact-manifest.json` with schema `evidencetrail-artifacts/1`. The five payload files each have a byte count and SHA-256; the manifest does not hash itself. `python -m evidencetrail.verify_bundle FILE.zip` checks the declared payload set without extracting files. Legacy ZIPs without this manifest are explicitly unsupported by the checker. The [practical-use contract](practical-use.md) specifies limits, failure behavior, and the distinction between consistency and authenticity. This Python-only packaging change does not alter the existing audit rules, comparison metrics, or browser outputs.
