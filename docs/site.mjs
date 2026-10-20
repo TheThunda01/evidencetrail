@@ -1,6 +1,6 @@
 import {REQUIRED_COLUMNS, EVIDENCE_STATUSES, parseCSV, identityMapping, applyMapping, audit, compare, csvExport} from './web-core.mjs';
 
-const APP_VERSION = '0.2.0';
+const APP_VERSION = '0.3.0';
 const LABELS = {record_id:'Record ID',report_id:'Report ID',field:'Extraction field',value:'Extracted value',evidence_status:'Evidence status',source_locator:'Source locator',review_status:'Review status'};
 const CHOICES = ['Use first reviewer','Use second reviewer','Enter a different value','Defer'];
 const COMPARISON_COLUMNS = ['report_id','field','left_row','right_row','left_record_id','right_record_id','left_value','right_value','left_evidence_status','right_evidence_status','left_source_locator','right_source_locator','status','different_fields','locator_diff'];
@@ -79,6 +79,13 @@ function renderComparisonResults(parent) {
   filter.addEventListener('change',showPairs);append(parent,filterField,pairs);showPairs();
   if(result.issues.length) {append(parent,node('h3','Rows excluded from matching'),node('p','Correct incomplete or duplicated keys in the source tables before comparing these records. Blocked rows are not counted as unmatched.','help'));table(parent,result.issues.map(issue=>({...issue,side:issue.side==='left'?'First reviewer':'Second reviewer'})),[['side','Reviewer'],['row_numbers','Spreadsheet rows'],['reason','Reason'],['key','Matching key']]);}
   const provenance=comparisonProvenance();append(parent,append(node('div','','actions'),button('Download comparison CSV',()=>download('evidencetrail-comparison.csv',csvExport(result.pairs,COMPARISON_COLUMNS))),button('Download comparison JSON',()=>jsonDownload('evidencetrail-comparison.json',{format:'EvidenceTrail browser comparison',format_version:1,generated_at:new Date().toISOString(),provenance,interpretation:'Exact agreement is not source verification. Ambiguous keys are excluded.',...result}))));
+  const details=node('details','','details-box');details.open=true;
+  append(details,node('summary','Pairing coverage and nonblank agreement'),node('p','Coverage uses all submitted rows, including rows blocked by missing or duplicated keys. Blank cells are counted separately from agreement on nonblank text.','help'));
+  const percent=value=>value===null?'Undefined':`${(100*value).toFixed(1)}%`;
+  table(details,result.metrics.pairing.map(item=>({...item,reviewer:item.reviewer==='left'?'First':'Second',matched_submitted:`${item.matched_rows} / ${item.input_rows}`,coverage:percent(item.coverage_fraction)})),[['reviewer','Reviewer'],['matched_submitted','Matched / submitted'],['coverage','Coverage'],['unmatched_rows','Unmatched rows'],['blocked_rows','Blocked rows']]);
+  table(details,result.metrics.fields.map(item=>({...item,exact_nonblank:`${item.exact_matches_both_nonblank} / ${item.both_nonblank}`,agreement:percent(item.agreement_fraction_both_nonblank)})),[['field','Compared field'],['exact_nonblank','Exact / both nonblank'],['agreement','Nonblank agreement'],['left_blank_only','First blank only'],['right_blank_only','Second blank only'],['both_blank','Both blank']]);
+  append(details,node('p','Raw exact matches can include jointly blank cells. These field rates describe recorded text, not extraction accuracy or reviewer reliability. A blank value may be appropriate for Not reported or Not applicable. An empty denominator gives an undefined rate.','help'),button('Download comparison metrics JSON',()=>jsonDownload('evidencetrail-comparison-metrics.json',{format:'EvidenceTrail comparison metrics',format_version:1,application_version:APP_VERSION,provenance,interpretation:'Descriptive input coverage and nonblank exact-text agreement; not source verification or reviewer reliability.',metrics:result.metrics})));
+  parent.append(details);
   renderDecisions(parent);
 }
 function renderDecisions(parent) {

@@ -31,6 +31,40 @@ for (const item of fixtures.comparison_cases) {
   });
 }
 
+test("Pairing coverage includes blocked and unmatched input rows", () => {
+  const first = table([record({report_id:'P1'}), record({report_id:'P2'}),
+    record({report_id:'P3'}), record({report_id:'P3'})]);
+  const second = table([record({report_id:'P1'}), record({report_id:'P3'})]);
+  const result = compare(first, second);
+  assert.deepEqual(result.metrics.pairing.map(item=>[item.input_rows,item.matched_rows,item.unmatched_rows,item.blocked_rows,item.coverage_fraction]),
+    [[4,1,1,2,0.25],[2,1,0,1,0.5]]);
+});
+
+test("Joint and one-sided blanks do not enter nonblank agreement denominator", () => {
+  const first=table([record({report_id:'P1',value:' National '}),
+    record({report_id:'P2',value:' ',evidence_status:'Not reported'}),
+    record({report_id:'P3',value:''}),record({report_id:'P4',value:'NA'})]);
+  const second=table([record({report_id:'P1',value:'National'}),
+    record({report_id:'P2',value:'',evidence_status:'Not reported'}),
+    record({report_id:'P3',value:'National'}),record({report_id:'P4',value:''})]);
+  const result=compare(first,second);
+  assert.deepEqual(result.metrics.fields[0],{field:'value',matched_pairs:4,both_nonblank:1,
+    exact_matches_both_nonblank:1,agreement_fraction_both_nonblank:1,
+    left_blank_only:1,right_blank_only:1,both_blank:1});
+  assert.deepEqual(result.metrics.raw_exact_pair_agreement,{exact_matches:2,matched_pairs:4,fraction:0.5});
+});
+
+test("Undefined agreement and coverage rates remain null in exports", () => {
+  const empty=compare(table([]),table([]));
+  assert.equal(empty.metrics.pairing[0].coverage_fraction,null);
+  assert.equal(empty.metrics.fields[0].agreement_fraction_both_nonblank,null);
+  assert.equal(empty.metrics.raw_exact_pair_agreement.fraction,null);
+  assert.match(JSON.stringify(empty.metrics),/null/);
+  const blank=compare(table([record({value:''})]),table([record({value:''})]));
+  assert.equal(blank.summary.agreements,1);
+  assert.equal(blank.metrics.fields[0].agreement_fraction_both_nonblank,null);
+});
+
 test("CSV accepts BOM, CRLF, quoted commas, doubled quotes and embedded newlines", () => {
   const parsed = parseCSV('\uFEFF id ,value\r\n001,"NA, null"\r\n002,"line one\r\nline ""two"""\r\n');
   assert.deepEqual(parsed, {

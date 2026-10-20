@@ -114,6 +114,8 @@ Rows are matched by the combination of **`report_id` and `field`**. Each combina
 
 The example produces 19 comparable pairs: 17 agreements and two differences, plus one record present only in each table. Two matched pairs also have different locators. Agreement compares `value` and `evidence_status` after trimming surrounding whitespace. It preserves case and internal spacing. Source-locator differences are shown separately, so an agreement can still need a source-location check.
 
+Open **Pairing coverage and nonblank agreement** to see the denominators. Both example tables have 19 matched rows out of 20 submitted rows, or 95% pairing coverage. The field table separately counts pairs where both cells contain text, only one is blank, or both are blank. Its agreement rate uses only pairs with text on both sides. **Download comparison metrics JSON** saves these counts with the source fingerprints. These are descriptive text comparisons, not accuracy scores.
+
 Reviewers may express the same answer in different words, or share the same incorrect answer. The comparison does not interpret meaning or determine who is correct.
 
 ## 7. Record and keep your decisions

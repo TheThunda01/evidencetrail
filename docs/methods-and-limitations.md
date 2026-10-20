@@ -1,6 +1,6 @@
 # Methods and limitations
 
-EvidenceTrail provides deterministic table checks, recorded-progress summaries, reviewer comparison, and user-entered decision records. It does not assess the scientific content of an article or perform evidence extraction. This document describes version **0.2.0**, which includes a CSV-only browser demo and a full Python app.
+EvidenceTrail provides deterministic table checks, recorded-progress summaries, reviewer comparison, and user-entered decision records. It does not assess the scientific content of an article or perform evidence extraction. This document describes version **0.3.0**, which includes a CSV-only browser demo and a full Python app.
 
 ## Unit of checking
 
@@ -59,6 +59,16 @@ Field completeness groups rows by `field`, including blank field labels. It coun
 The interface matches two tables by `(report_id, field)`. Missing keys are excluded. If a key occurs more than once on either side, all rows with that key on both sides are excluded. The app does not choose among ambiguous matches. Usable keys found only on one side are reported separately.
 
 Matched rows agree only when their `value` and `evidence_status` match after trimming surrounding whitespace. Case and internal spacing remain significant. Different locators are reported independently of answer agreement. Comparison and decision exports contain this trimmed text, rather than the original cell formatting. This is a text comparison, not semantic interpretation, an accuracy estimate, or an agreement statistic adjusted for chance. Review statuses, reviewer names, and notes do not determine the comparison result.
+
+### Comparison metrics
+
+Pairing coverage is calculated separately for each submitted table: the number of matched, unique, complete keys divided by the number of submitted rows on that side. Rows blocked by missing or duplicate keys remain in that denominator, as do usable rows found only on that side. The numerator is the same for both reviewers, but the denominators can differ. A table with no rows has an undefined rate, represented as `null` in JSON. Coverage describes which submitted rows could be compared; it does not measure how completely either reviewer searched a source.
+
+Nonblank agreement is calculated separately for each compared column, currently `value` and `evidence_status`. Among matched keys, the denominator is the number of pairs with nonblank text on both sides, and the numerator is the number of those pairs with identical trimmed text. The summary also counts first-reviewer-only blanks, second-reviewer-only blanks, and joint blanks. These categories make it possible to account for every matched pair without treating a missing entry as an answer. If no pairs contain text on both sides, the rate is undefined rather than zero.
+
+The overall exact-match count retains its original definition: all compared columns must match within a pair, and matching blanks count as text matches. It therefore answers a different question from nonblank agreement. A blank `value` may be appropriate for statuses such as `Not reported` or `Not applicable`; the audit rules and source review determine whether a particular blank needs correction.
+
+These are descriptive counts of the supplied records. Matching text does not establish that an answer is correct or supported, and different text may express the same meaning. The summaries do not establish reviewer reliability, scientific accuracy, or readiness for synthesis. They provide no chance correction or confidence interval. This version does not calculate Cohen's kappa: a pooled statistic over heterogeneous questions and free-text answers would require a separately specified rating scheme and interpretation. The metric definitions here are implementation choices, not a validated measurement scale.
 
 A researcher can select either reviewer's result, enter a different result, or defer. Every decision requires a name or identifier and rationale. Selected results must meet the documented status, value, and locator requirements. These checks do not establish source support.
 

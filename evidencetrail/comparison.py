@@ -26,10 +26,61 @@ class ComparisonResult:
     pairs: pd.DataFrame
     issues: pd.DataFrame
     summary: dict[str, int]
+    metrics: dict
 
     def to_frame(self) -> pd.DataFrame:
         """Return an independent copy of the comparison records."""
         return self.pairs.copy(deep=True)
+
+
+def _descriptive_metrics(pairs: list[dict], summary: dict[str, int],
+                         sides: dict[str, list[dict]], blocked: dict[str, set[int]],
+                         compared: tuple[str, ...]) -> dict:
+    """Keep input coverage and nonblank text agreement separate.
+
+    All input rows are retained in the coverage denominator, including blocked
+    rows. Agreement denominators are matched pairs with nonblank text on both
+    sides, separately for each field. None means an undefined ratio, never zero.
+    These are counts of the supplied records, not estimates of reviewer accuracy.
+    """
+    matched = [pair for pair in pairs if pair["status"] in ("Agreement", "Difference")]
+    pairing = [{
+        "reviewer": side,
+        "input_rows": len(sides[side]),
+        "matched_rows": len(matched),
+        "unmatched_rows": summary[f"{side}_only"],
+        "blocked_rows": len(blocked[side]),
+        "coverage_fraction": len(matched) / len(sides[side]) if sides[side] else None,
+    } for side in ("left", "right")]
+    fields = []
+    for column in compared:
+        both_nonblank = exact = left_blank = right_blank = both_blank = 0
+        for pair in matched:
+            first, second = pair[f"left_{column}"], pair[f"right_{column}"]
+            if first and second:
+                both_nonblank += 1
+                exact += int(first == second)
+            elif not first and not second:
+                both_blank += 1
+            elif not first:
+                left_blank += 1
+            else:
+                right_blank += 1
+        fields.append({
+            "field": column, "matched_pairs": len(matched),
+            "both_nonblank": both_nonblank,
+            "exact_matches_both_nonblank": exact,
+            "agreement_fraction_both_nonblank": exact / both_nonblank if both_nonblank else None,
+            "left_blank_only": left_blank, "right_blank_only": right_blank,
+            "both_blank": both_blank,
+        })
+    return {
+        "pairing": pairing, "fields": fields,
+        "raw_exact_pair_agreement": {
+            "exact_matches": summary["agreements"], "matched_pairs": len(matched),
+            "fraction": summary["agreements"] / len(matched) if matched else None,
+        },
+    }
 
 
 def _columns(columns: Sequence[str], label: str, *, required: bool = False) -> tuple[str, ...]:
@@ -154,7 +205,8 @@ def compare_tables(
         "blocked_rows": sum(len(numbers) for numbers in blocked.values()),
     }
     issues.sort(key=lambda issue: (0 if issue["side"] == "left" else 1, int(issue["row_numbers"].split(",")[0])))
-    return ComparisonResult(paired, pd.DataFrame(issues, columns=ISSUE_COLUMNS), summary)
+    metrics = _descriptive_metrics(pairs, summary, sides, blocked, compared)
+    return ComparisonResult(paired, pd.DataFrame(issues, columns=ISSUE_COLUMNS), summary, metrics)
 
 
 def comparison_id(

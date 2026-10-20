@@ -237,8 +237,34 @@ export function compare(left, right) {
   for (const [key, row] of available.right) if (!available.left.has(key)) addPair(null, row);
   const count = (status) => pairs.filter((pair) => pair.status === status).length;
   const summary = { comparable_pairs: count("Agreement") + count("Difference"), agreements: count("Agreement"), differences: count("Difference"), left_only: count("Left only"), right_only: count("Right only"), blocked_rows: blocked.left.size + blocked.right.size };
+  // Coverage retains blocked rows in the input denominator. Nonblank text
+  // agreement is descriptive; two missing answers are not substantive agreement.
+  const matched = pairs.filter((pair) => ["Agreement", "Difference"].includes(pair.status));
+  const pairing = ["left", "right"].map((side) => ({
+    reviewer: side, input_rows: sides[side].length, matched_rows: matched.length,
+    unmatched_rows: summary[`${side}_only`], blocked_rows: blocked[side].size,
+    coverage_fraction: sides[side].length ? matched.length / sides[side].length : null,
+  }));
+  const fields = ["value", "evidence_status"].map((field) => {
+    let both_nonblank = 0, exact = 0, left_blank_only = 0, right_blank_only = 0, both_blank = 0;
+    for (const pair of matched) {
+      const first = pair[`left_${field}`], second = pair[`right_${field}`];
+      if (first && second) { both_nonblank++; if (first === second) exact++; }
+      else if (!first && !second) both_blank++;
+      else if (!first) left_blank_only++;
+      else right_blank_only++;
+    }
+    return {field, matched_pairs: matched.length, both_nonblank,
+      exact_matches_both_nonblank: exact,
+      agreement_fraction_both_nonblank: both_nonblank ? exact / both_nonblank : null,
+      left_blank_only, right_blank_only, both_blank};
+  });
+  const metrics = {pairing, fields, raw_exact_pair_agreement: {
+    exact_matches: summary.agreements, matched_pairs: matched.length,
+    fraction: matched.length ? summary.agreements / matched.length : null,
+  }};
   issues.sort((first, second) => (first.side === second.side ? 0 : first.side === "left" ? -1 : 1) || parseInt(first.row_numbers, 10) - parseInt(second.row_numbers, 10));
-  return { pairs, issues, summary };
+  return { pairs, issues, summary, metrics };
 }
 
 /** Export a spreadsheet-safe UTF-8 CSV string, with BOM and CRLF line endings. */

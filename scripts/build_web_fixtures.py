@@ -38,6 +38,7 @@ def comparison_case(name, left, right):
     result = compare_tables(left, right)
     return {"name": name, "left": table(left), "right": table(right), "expected": {
         "pairs": result.pairs.to_dict("records"), "issues": result.issues.to_dict("records"), "summary": result.summary,
+        "metrics": result.metrics,
     }}
 
 
@@ -67,6 +68,12 @@ def main():
     duplicate = pd.concat([frames["reviewer_a"], frames["reviewer_a"].iloc[[0]]], ignore_index=True)
     missing = frames["reviewer_b"].copy()
     missing.loc[0, "field"] = ""
+    blanks_left = frames["reviewer_a"].iloc[:4].copy()
+    blanks_right = blanks_left.copy()
+    blanks_left["value"] = ["National", "", "", "NA"]
+    blanks_right["value"] = ["National", "", "Regional", ""]
+    blanks_left["evidence_status"] = ["Reported", "Not reported", "Reported", "Reported"]
+    blanks_right["evidence_status"] = blanks_left["evidence_status"].tolist()
     fixtures = {
         "audit_cases": [audit_case("demo", frames["demo"]), audit_case("clean", frames["clean"]),
                         audit_case("unusual values", unusual), audit_case("empty", empty)],
@@ -74,7 +81,8 @@ def main():
                            "expected": table(map_columns(renamed, mapping))}],
         "comparison_cases": [comparison_case("demo reviewers", frames["reviewer_a"], frames["reviewer_b"]),
             comparison_case("duplicate blocks counterpart", duplicate, frames["reviewer_b"]),
-            comparison_case("missing key", frames["reviewer_a"], missing), comparison_case("empty", empty, empty)],
+            comparison_case("missing key", frames["reviewer_a"], missing), comparison_case("empty", empty, empty),
+            comparison_case("joint and one-sided blanks", blanks_left, blanks_right)],
     }
     (ROOT / "docs/web-parity.json").write_text(json.dumps(fixtures, ensure_ascii=False, indent=2) + "\n")
 

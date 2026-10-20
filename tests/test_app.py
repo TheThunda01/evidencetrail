@@ -86,6 +86,15 @@ class AppTests(unittest.TestCase):
         self.assertEqual(len(self.app.dataframe[0].value), 2)
         self.assertEqual(len(self.app.exception), 0)
 
+    def test_comparison_metrics_show_explicit_denominators_and_download(self):
+        self.compare()
+        coverage = self.app.dataframe[1].value
+        self.assertEqual(coverage["Matched / submitted"].tolist(), ["19 / 20", "19 / 20"])
+        self.assertEqual(coverage["Coverage"].tolist(), ["95.0%", "95.0%"])
+        agreement = self.app.dataframe[2].value
+        self.assertEqual(agreement["Compared field"].tolist(), ["value", "evidence_status"])
+        self.assertTrue(any(item.label == "Download comparison metrics JSON" for item in self.app.get("download_button")))
+
     def test_decision_requires_reason_and_replaces_current_pair_entry(self):
         self.compare()
         prefixed(self.app.button, "save_").click().run()

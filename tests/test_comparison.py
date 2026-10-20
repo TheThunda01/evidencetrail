@@ -1,5 +1,6 @@
 """Reviewer matching must remain explicit and conservative about ambiguity."""
 
+import json
 import unittest
 
 import pandas as pd
@@ -99,6 +100,56 @@ class ComparisonTests(unittest.TestCase):
         unmatched = compare_tables(pd.DataFrame([row()]), empty)
         self.assertEqual(unmatched.pairs.iloc[0]["status"], "Left only")
         self.assertTrue(pd.isna(unmatched.pairs.iloc[0]["right_row"]))
+
+    def test_coverage_keeps_blocked_and_unmatched_rows_in_denominator(self):
+        left = pd.DataFrame([row(report_id="P-1"), row(report_id="P-2"),
+                             row(report_id="P-3"), row(report_id="P-3")])
+        right = pd.DataFrame([row(report_id="P-1"), row(report_id="P-3")])
+        result = compare_tables(left, right)
+        first, second = result.metrics["pairing"]
+        self.assertEqual((first["input_rows"], first["matched_rows"], first["unmatched_rows"], first["blocked_rows"]), (4, 1, 1, 2))
+        self.assertEqual((second["input_rows"], second["matched_rows"], second["unmatched_rows"], second["blocked_rows"]), (2, 1, 0, 1))
+        self.assertEqual(first["coverage_fraction"], 0.25)
+        self.assertEqual(second["coverage_fraction"], 0.5)
+        for side in (first, second):
+            self.assertEqual(side["input_rows"], side["matched_rows"] + side["unmatched_rows"] + side["blocked_rows"])
+
+    def test_blank_pairs_are_separate_from_nonblank_agreement(self):
+        left = pd.DataFrame([row(report_id="P1", value=" National "),
+            row(report_id="P2", value=" ", evidence_status="Not reported"),
+            row(report_id="P3", value=None), row(report_id="P4", value="NA")])
+        right = pd.DataFrame([row(report_id="P1", value="National"),
+            row(report_id="P2", value=None, evidence_status="Not reported"),
+            row(report_id="P3", value="National"), row(report_id="P4", value="")])
+        result = compare_tables(left, right)
+        value, status = result.metrics["fields"]
+        self.assertEqual(value, {"field": "value", "matched_pairs": 4, "both_nonblank": 1,
+            "exact_matches_both_nonblank": 1, "agreement_fraction_both_nonblank": 1.0,
+            "left_blank_only": 1, "right_blank_only": 1, "both_blank": 1})
+        self.assertEqual(status["both_nonblank"], 4)
+        self.assertEqual(status["exact_matches_both_nonblank"], 4)
+        self.assertEqual(result.metrics["raw_exact_pair_agreement"],
+                         {"exact_matches": 2, "matched_pairs": 4, "fraction": 0.5})
+        # Literal NA is text, not inferred missingness; no input is rewritten.
+        self.assertEqual(left.loc[3, "value"], "NA")
+
+    def test_no_eligible_values_or_empty_tables_have_undefined_rates(self):
+        blank = pd.DataFrame([row(value="", evidence_status="Not reported")])
+        result = compare_tables(blank, blank)
+        self.assertEqual(result.summary["agreements"], 1)
+        self.assertIsNone(result.metrics["fields"][0]["agreement_fraction_both_nonblank"])
+        empty = pd.DataFrame(columns=row().keys())
+        result = compare_tables(empty, empty)
+        self.assertTrue(all(item["coverage_fraction"] is None for item in result.metrics["pairing"]))
+        self.assertTrue(all(item["agreement_fraction_both_nonblank"] is None for item in result.metrics["fields"]))
+        self.assertIsNone(result.metrics["raw_exact_pair_agreement"]["fraction"])
+        json_text = json.dumps(result.metrics, allow_nan=False)
+        self.assertIn("null", json_text)
+
+    def test_metric_fields_follow_custom_comparison_contract(self):
+        table = pd.DataFrame([row()])
+        result = compare_tables(table, table, compare_columns=("evidence_status",))
+        self.assertEqual([item["field"] for item in result.metrics["fields"]], ["evidence_status"])
 
     def test_required_schema_and_custom_keys(self):
         table = pd.DataFrame([row()])

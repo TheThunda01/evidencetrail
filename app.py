@@ -184,6 +184,33 @@ def show_comparison() -> None:
     st.download_button("Download full comparison CSV", spreadsheet_safe_frame(comparison.to_frame()).to_csv(index=False).encode("utf-8-sig"), "evidencetrail-comparison.csv", "text/csv")
     st.caption("The full comparison includes unmatched records. Excluded rows are provided separately above.")
 
+    with st.expander("Pairing coverage and nonblank agreement", expanded=True):
+        st.caption("Coverage uses all submitted rows as its denominator, including rows blocked by missing or duplicated keys. Blank cells are reported separately from agreement on nonblank text.")
+        coverage = pd.DataFrame([{
+            "Reviewer": "First" if item["reviewer"] == "left" else "Second",
+            "Matched / submitted": f"{item['matched_rows']} / {item['input_rows']}",
+            "Coverage": "Undefined" if item["coverage_fraction"] is None else f"{item['coverage_fraction']:.1%}",
+            "Unmatched rows": item["unmatched_rows"], "Blocked rows": item["blocked_rows"],
+        } for item in comparison.metrics["pairing"]])
+        st.dataframe(coverage, hide_index=True, width="stretch")
+        agreement = pd.DataFrame([{
+            "Compared field": item["field"],
+            "Exact / both nonblank": f"{item['exact_matches_both_nonblank']} / {item['both_nonblank']}",
+            "Nonblank agreement": "Undefined" if item["agreement_fraction_both_nonblank"] is None else f"{item['agreement_fraction_both_nonblank']:.1%}",
+            "First blank only": item["left_blank_only"], "Second blank only": item["right_blank_only"],
+            "Both blank": item["both_blank"],
+        } for item in comparison.metrics["fields"]])
+        st.dataframe(agreement, hide_index=True, width="stretch")
+        st.caption("Exact matches above can include jointly blank cells. These field rates describe recorded text, not extraction accuracy or reviewer reliability. A blank value may be appropriate for Not reported or Not applicable. There is no meaningful rate when its denominator is zero.")
+        metrics_export = {
+            "format": "EvidenceTrail comparison metrics", "format_version": 1,
+            "application_version": __version__, "comparison_id": identity,
+            "first_source": first.metadata(), "second_source": second.metadata(),
+            "interpretation": "Descriptive input coverage and nonblank exact-text agreement; not source verification or reviewer reliability.",
+            "metrics": comparison.metrics,
+        }
+        st.download_button("Download comparison metrics JSON", json.dumps(metrics_export, indent=2, ensure_ascii=False, allow_nan=False).encode("utf-8"), "evidencetrail-comparison-metrics.json", "application/json")
+
     st.subheader("Record a review decision")
     eligible = comparison.pairs[comparison.pairs["status"].isin(["Agreement", "Difference"])]
     if eligible.empty:

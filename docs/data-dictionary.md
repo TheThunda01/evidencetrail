@@ -73,6 +73,26 @@ For comparison, represent each distinct question or outcome with an unambiguous 
 
 Record IDs need not match across the two tables. The comparison does not compare reviewer names, notes, or review-status labels to determine agreement. Case and internal spacing still matter; two paraphrases can be reported as a difference.
 
+### Comparison metrics JSON
+
+Both interfaces display these metrics and offer **Download comparison metrics JSON**. The browser's full comparison JSON also includes them under `metrics`. Ratios are proportions from 0 to 1; a zero denominator produces JSON `null`, displayed as **Undefined**.
+
+| Object / field | Definition |
+| --- | --- |
+| `pairing[].reviewer` | `left` for the first table, `right` for the second. |
+| `input_rows` | All submitted rows on that side, including excluded rows. |
+| `matched_rows`, `unmatched_rows`, `blocked_rows` | Disjoint counts that sum to `input_rows`. A unique counterpart of a duplicated key is blocked. |
+| `coverage_fraction` | `matched_rows / input_rows` on that side. |
+| `fields[].field` | Compared column, currently `value` or `evidence_status` in the interfaces. |
+| `matched_pairs` | Pairs with unique, complete keys present in both tables. |
+| `both_nonblank` | Matched pairs containing nonblank text in this column on both sides. |
+| `exact_matches_both_nonblank` | Those nonblank pairs with identical trimmed text. |
+| `agreement_fraction_both_nonblank` | `exact_matches_both_nonblank / both_nonblank`. |
+| `left_blank_only`, `right_blank_only`, `both_blank` | Remaining matched pairs, classified by blank text in this column. These counts plus `both_nonblank` equal `matched_pairs`. |
+| `raw_exact_pair_agreement` | Exact matching across all compared columns, including matching blanks, with `exact_matches`, `matched_pairs`, and their ratio `fraction`. |
+
+Blank values can be appropriate under an evidence-status label. These summaries describe recorded text and pairing coverage; they do not establish correct extraction, reviewer reliability, or scientific validity.
+
 ## Decision records
 
 Decisions apply to matched pairs. A name or reviewer identifier and a reason are required for every choice, including deferral.

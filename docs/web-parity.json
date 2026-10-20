@@ -2182,6 +2182,53 @@
           "left_only": 1,
           "right_only": 1,
           "blocked_rows": 0
+        },
+        "metrics": {
+          "pairing": [
+            {
+              "reviewer": "left",
+              "input_rows": 20,
+              "matched_rows": 19,
+              "unmatched_rows": 1,
+              "blocked_rows": 0,
+              "coverage_fraction": 0.95
+            },
+            {
+              "reviewer": "right",
+              "input_rows": 20,
+              "matched_rows": 19,
+              "unmatched_rows": 1,
+              "blocked_rows": 0,
+              "coverage_fraction": 0.95
+            }
+          ],
+          "fields": [
+            {
+              "field": "value",
+              "matched_pairs": 19,
+              "both_nonblank": 15,
+              "exact_matches_both_nonblank": 14,
+              "agreement_fraction_both_nonblank": 0.9333333333333333,
+              "left_blank_only": 0,
+              "right_blank_only": 1,
+              "both_blank": 3
+            },
+            {
+              "field": "evidence_status",
+              "matched_pairs": 19,
+              "both_nonblank": 19,
+              "exact_matches_both_nonblank": 18,
+              "agreement_fraction_both_nonblank": 0.9473684210526315,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            }
+          ],
+          "raw_exact_pair_agreement": {
+            "exact_matches": 17,
+            "matched_pairs": 19,
+            "fraction": 0.8947368421052632
+          }
         }
       }
     },
@@ -3032,6 +3079,53 @@
           "left_only": 1,
           "right_only": 1,
           "blocked_rows": 3
+        },
+        "metrics": {
+          "pairing": [
+            {
+              "reviewer": "left",
+              "input_rows": 21,
+              "matched_rows": 18,
+              "unmatched_rows": 1,
+              "blocked_rows": 2,
+              "coverage_fraction": 0.8571428571428571
+            },
+            {
+              "reviewer": "right",
+              "input_rows": 20,
+              "matched_rows": 18,
+              "unmatched_rows": 1,
+              "blocked_rows": 1,
+              "coverage_fraction": 0.9
+            }
+          ],
+          "fields": [
+            {
+              "field": "value",
+              "matched_pairs": 18,
+              "both_nonblank": 14,
+              "exact_matches_both_nonblank": 14,
+              "agreement_fraction_both_nonblank": 1.0,
+              "left_blank_only": 0,
+              "right_blank_only": 1,
+              "both_blank": 3
+            },
+            {
+              "field": "evidence_status",
+              "matched_pairs": 18,
+              "both_nonblank": 18,
+              "exact_matches_both_nonblank": 17,
+              "agreement_fraction_both_nonblank": 0.9444444444444444,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            }
+          ],
+          "raw_exact_pair_agreement": {
+            "exact_matches": 17,
+            "matched_pairs": 18,
+            "fraction": 0.9444444444444444
+          }
         }
       }
     },
@@ -3882,6 +3976,53 @@
           "left_only": 2,
           "right_only": 1,
           "blocked_rows": 1
+        },
+        "metrics": {
+          "pairing": [
+            {
+              "reviewer": "left",
+              "input_rows": 20,
+              "matched_rows": 18,
+              "unmatched_rows": 2,
+              "blocked_rows": 0,
+              "coverage_fraction": 0.9
+            },
+            {
+              "reviewer": "right",
+              "input_rows": 20,
+              "matched_rows": 18,
+              "unmatched_rows": 1,
+              "blocked_rows": 1,
+              "coverage_fraction": 0.9
+            }
+          ],
+          "fields": [
+            {
+              "field": "value",
+              "matched_pairs": 18,
+              "both_nonblank": 14,
+              "exact_matches_both_nonblank": 14,
+              "agreement_fraction_both_nonblank": 1.0,
+              "left_blank_only": 0,
+              "right_blank_only": 1,
+              "both_blank": 3
+            },
+            {
+              "field": "evidence_status",
+              "matched_pairs": 18,
+              "both_nonblank": 18,
+              "exact_matches_both_nonblank": 17,
+              "agreement_fraction_both_nonblank": 0.9444444444444444,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            }
+          ],
+          "raw_exact_pair_agreement": {
+            "exact_matches": 17,
+            "matched_pairs": 18,
+            "fraction": 0.9444444444444444
+          }
         }
       }
     },
@@ -3921,6 +4062,302 @@
           "left_only": 0,
           "right_only": 0,
           "blocked_rows": 0
+        },
+        "metrics": {
+          "pairing": [
+            {
+              "reviewer": "left",
+              "input_rows": 0,
+              "matched_rows": 0,
+              "unmatched_rows": 0,
+              "blocked_rows": 0,
+              "coverage_fraction": null
+            },
+            {
+              "reviewer": "right",
+              "input_rows": 0,
+              "matched_rows": 0,
+              "unmatched_rows": 0,
+              "blocked_rows": 0,
+              "coverage_fraction": null
+            }
+          ],
+          "fields": [
+            {
+              "field": "value",
+              "matched_pairs": 0,
+              "both_nonblank": 0,
+              "exact_matches_both_nonblank": 0,
+              "agreement_fraction_both_nonblank": null,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            },
+            {
+              "field": "evidence_status",
+              "matched_pairs": 0,
+              "both_nonblank": 0,
+              "exact_matches_both_nonblank": 0,
+              "agreement_fraction_both_nonblank": null,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            }
+          ],
+          "raw_exact_pair_agreement": {
+            "exact_matches": 0,
+            "matched_pairs": 0,
+            "fraction": null
+          }
+        }
+      }
+    },
+    {
+      "name": "joint and one-sided blanks",
+      "left": {
+        "headers": [
+          "record_id",
+          "report_id",
+          "field",
+          "value",
+          "evidence_status",
+          "source_locator",
+          "review_status",
+          "reviewer",
+          "notes"
+        ],
+        "rows": [
+          {
+            "record_id": "R001",
+            "report_id": "SIM-001",
+            "field": "Responsible organization",
+            "value": "National",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 1",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R002",
+            "report_id": "SIM-001",
+            "field": "Data sources",
+            "value": "",
+            "evidence_status": "Not reported",
+            "source_locator": "Synthetic source, section 2",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R003",
+            "report_id": "SIM-001",
+            "field": "Information exchange",
+            "value": "",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 3",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R004",
+            "report_id": "SIM-001",
+            "field": "Public health action",
+            "value": "NA",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 4",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          }
+        ]
+      },
+      "right": {
+        "headers": [
+          "record_id",
+          "report_id",
+          "field",
+          "value",
+          "evidence_status",
+          "source_locator",
+          "review_status",
+          "reviewer",
+          "notes"
+        ],
+        "rows": [
+          {
+            "record_id": "R001",
+            "report_id": "SIM-001",
+            "field": "Responsible organization",
+            "value": "National",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 1",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R002",
+            "report_id": "SIM-001",
+            "field": "Data sources",
+            "value": "",
+            "evidence_status": "Not reported",
+            "source_locator": "Synthetic source, section 2",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R003",
+            "report_id": "SIM-001",
+            "field": "Information exchange",
+            "value": "Regional",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 3",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          },
+          {
+            "record_id": "R004",
+            "report_id": "SIM-001",
+            "field": "Public health action",
+            "value": "",
+            "evidence_status": "Reported",
+            "source_locator": "Synthetic source, section 4",
+            "review_status": "Pending",
+            "reviewer": "Demo reviewer",
+            "notes": "Fictional record for software testing. Not a real study."
+          }
+        ]
+      },
+      "expected": {
+        "pairs": [
+          {
+            "report_id": "SIM-001",
+            "field": "Responsible organization",
+            "left_row": 2,
+            "right_row": 2,
+            "left_record_id": "R001",
+            "right_record_id": "R001",
+            "left_value": "National",
+            "right_value": "National",
+            "left_evidence_status": "Reported",
+            "right_evidence_status": "Reported",
+            "left_source_locator": "Synthetic source, section 1",
+            "right_source_locator": "Synthetic source, section 1",
+            "status": "Agreement",
+            "different_fields": "",
+            "locator_diff": false
+          },
+          {
+            "report_id": "SIM-001",
+            "field": "Data sources",
+            "left_row": 3,
+            "right_row": 3,
+            "left_record_id": "R002",
+            "right_record_id": "R002",
+            "left_value": "",
+            "right_value": "",
+            "left_evidence_status": "Not reported",
+            "right_evidence_status": "Not reported",
+            "left_source_locator": "Synthetic source, section 2",
+            "right_source_locator": "Synthetic source, section 2",
+            "status": "Agreement",
+            "different_fields": "",
+            "locator_diff": false
+          },
+          {
+            "report_id": "SIM-001",
+            "field": "Information exchange",
+            "left_row": 4,
+            "right_row": 4,
+            "left_record_id": "R003",
+            "right_record_id": "R003",
+            "left_value": "",
+            "right_value": "Regional",
+            "left_evidence_status": "Reported",
+            "right_evidence_status": "Reported",
+            "left_source_locator": "Synthetic source, section 3",
+            "right_source_locator": "Synthetic source, section 3",
+            "status": "Difference",
+            "different_fields": "value",
+            "locator_diff": false
+          },
+          {
+            "report_id": "SIM-001",
+            "field": "Public health action",
+            "left_row": 5,
+            "right_row": 5,
+            "left_record_id": "R004",
+            "right_record_id": "R004",
+            "left_value": "NA",
+            "right_value": "",
+            "left_evidence_status": "Reported",
+            "right_evidence_status": "Reported",
+            "left_source_locator": "Synthetic source, section 4",
+            "right_source_locator": "Synthetic source, section 4",
+            "status": "Difference",
+            "different_fields": "value",
+            "locator_diff": false
+          }
+        ],
+        "issues": [],
+        "summary": {
+          "comparable_pairs": 4,
+          "agreements": 2,
+          "differences": 2,
+          "left_only": 0,
+          "right_only": 0,
+          "blocked_rows": 0
+        },
+        "metrics": {
+          "pairing": [
+            {
+              "reviewer": "left",
+              "input_rows": 4,
+              "matched_rows": 4,
+              "unmatched_rows": 0,
+              "blocked_rows": 0,
+              "coverage_fraction": 1.0
+            },
+            {
+              "reviewer": "right",
+              "input_rows": 4,
+              "matched_rows": 4,
+              "unmatched_rows": 0,
+              "blocked_rows": 0,
+              "coverage_fraction": 1.0
+            }
+          ],
+          "fields": [
+            {
+              "field": "value",
+              "matched_pairs": 4,
+              "both_nonblank": 1,
+              "exact_matches_both_nonblank": 1,
+              "agreement_fraction_both_nonblank": 1.0,
+              "left_blank_only": 1,
+              "right_blank_only": 1,
+              "both_blank": 1
+            },
+            {
+              "field": "evidence_status",
+              "matched_pairs": 4,
+              "both_nonblank": 4,
+              "exact_matches_both_nonblank": 4,
+              "agreement_fraction_both_nonblank": 1.0,
+              "left_blank_only": 0,
+              "right_blank_only": 0,
+              "both_blank": 0
+            }
+          ],
+          "raw_exact_pair_agreement": {
+            "exact_matches": 2,
+            "matched_pairs": 4,
+            "fraction": 0.5
+          }
         }
       }
     }

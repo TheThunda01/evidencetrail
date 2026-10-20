@@ -4,7 +4,9 @@
 
 EvidenceTrail helps researchers inspect extraction tables, compare two reviewers' records, and document the decisions that follow. It finds missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements, then turns those checks into downloadable reports.
 
-This is an early working prototype, version **0.2.0**. The included examples contain synthetic records. EvidenceTrail checks table structure and consistency; scientific accuracy still requires reviewing the sources.
+**New here? [Read the project's background, rationale, and key themes](docs/project-context.md).**
+
+This is an early working prototype, version **0.3.0**. The included examples contain synthetic records. EvidenceTrail checks table structure and consistency; scientific accuracy still requires reviewing the sources.
 
 **[Try the live browser demo](https://thethunda01.github.io/evidencetrail/)** · No account or installation needed. Start with the synthetic examples, or select a CSV that stays in your browser.
 
@@ -22,6 +24,7 @@ EvidenceTrail makes a first pass at those inconsistencies visible. A researcher 
 - Checks identifiers, status labels, values, and source locations, with explanations and suggested next steps.
 - Summarizes recorded review progress and evidence completeness by extraction field.
 - Compares two reviewer tables by report and field, keeping differences in answers separate from differences in source locations.
+- Shows how much of each table could be paired and how often nonblank entries match, with the counts behind each rate.
 - Records your choice, name or identifier, and reason for a reviewer decision, while preserving both submitted answers.
 - Exports findings and reviewer decision records with input-file fingerprints and other provenance. The Python app also provides an audit ZIP bundle.
 - Includes a 20-row demonstration with five planted findings, a clean table, a blank template, and paired reviewer examples.
@@ -107,6 +110,10 @@ The [methods and limitations](docs/methods-and-limitations.md) explain exactly w
 ## Compare reviewers and record decisions
 
 Choose **Compare reviewers** and load the reviewer demo: **Load reviewer demo** in each browser panel, or **Demo reviewers** in the Python app. The underlying [reviewer_a.csv](examples/reviewer_a.csv) and [reviewer_b.csv](examples/reviewer_b.csv) contain 19 comparable pairs: 17 agree on answer and evidence status, and two differ. Each table also has one unmatched record. Two matched pairs use different source locations.
+
+The comparison summaries keep two questions separate. **Pairing coverage** is the number of comparable pairs divided by all submitted rows on that side, including rows excluded because their keys are missing or duplicated. For the demo, that is 19 of 20 rows, or 95%, for each reviewer. **Nonblank agreement** compares each column separately: `value` and `evidence_status`. Its denominator includes only matched pairs with text on both sides; one-sided blanks and joint blanks are counted separately. An empty denominator produces an undefined rate, not zero.
+
+The original exact-match count still includes pairs whose compared entries match even when some entries are blank. A blank answer can be appropriate for `Not reported` or `Not applicable`, so blankness alone is not an extraction error. These summaries describe the submitted text, not extraction accuracy, reviewer reliability, or readiness for synthesis. See the [metric definitions](docs/methods-and-limitations.md#comparison-metrics) before interpreting a percentage.
 
 For a matched pair, you can use either reviewer's answer, enter a different answer, or defer the decision. Each saved decision needs a reviewer name or identifier and a reason. Saving again for the same pair replaces its current decision in the session. Download a copy before clearing the session or leaving the app; it is not a persistent research database or an append-only history.
 

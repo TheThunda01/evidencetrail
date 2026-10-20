@@ -2,6 +2,19 @@
 
 This file records user-facing changes. Version 0.1.0 is the initial working prototype.
 
+## 0.3.0 — October 20, 2026
+
+### Added
+
+- Pairing coverage for each reviewer table, using all submitted rows as the denominator, including rows blocked from comparison.
+- Separate nonblank exact-text agreement summaries for compared columns, with explicit numerators, denominators, and one-sided or joint blank counts.
+- Matching metric definitions in the Python and browser versions, with undefined rates when a denominator is empty.
+
+### Scope
+
+- Overall exact-match counts still include matching blanks. Nonblank agreement answers a separate, narrower question.
+- These summaries describe recorded text and comparison coverage. They do not establish extraction accuracy, reviewer reliability, or readiness for synthesis.
+
 ## 0.2.0 — October 13, 2026
 
 ### Added
