@@ -4,6 +4,8 @@ This file records user-facing changes. Version 0.1.0 is the initial working prot
 
 ## Unreleased — advancement round, October 20, 2026
 
+- Round 2 adds an optional independently supplied expected ZIP SHA-256. Default receipts stay unchanged; an external-reference mismatch is reported separately and gives CLI exit 1.
+
 - Added a custom SHA-256 payload manifest to new Python audit ZIPs and an offline verification CLI. Checks establish byte consistency, not scientific verification or source authenticity.
 - Added malformed-package, changed-payload, CLI and manifest-boundary tests; existing audit and comparison definitions remain unchanged.
 - Standardized README navigation and documented practical use, data provenance, a bounded rapid review, and exact search/screening records.

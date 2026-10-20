@@ -31,7 +31,7 @@ def _unique_object(pairs):
     return result
 
 
-def verify_bundle(content: bytes) -> dict:
+def verify_bundle(content: bytes, expected_sha256: str | None = None) -> dict:
     """Return byte-consistency findings; reject invalid/oversized packaging.
 
     The manifest is unsigned. A person can change a payload and its manifest
@@ -40,6 +40,10 @@ def verify_bundle(content: bytes) -> dict:
     """
     if not isinstance(content, bytes) or len(content) > MAX_BUNDLE_BYTES:
         raise ValueError("Expected ZIP bytes no larger than 64 MiB.")
+    if expected_sha256 is not None:
+        if not isinstance(expected_sha256, str) or len(expected_sha256) != 64 or any(c not in "0123456789abcdefABCDEF" for c in expected_sha256):
+            raise ValueError("Expected ZIP SHA-256 must contain exactly 64 hexadecimal characters.")
+        expected_sha256 = expected_sha256.lower()
     try:
         with ZipFile(BytesIO(content)) as archive:
             infos = archive.infolist()
@@ -83,6 +87,13 @@ def verify_bundle(content: bytes) -> dict:
                     findings.append({"path": name, "code": "SHA256_MISMATCH"})
     except (BadZipFile, UnicodeError, json.JSONDecodeError, RuntimeError, OSError, EOFError, NotImplementedError, zlib.error) as error:
         raise ValueError("Bundle could not be read as a supported EvidenceTrail ZIP.") from error
-    return {"schema": "evidencetrail-verification/1", "bundle_sha256": sha256(content).hexdigest(),
+    report = {"schema": "evidencetrail-verification/1", "bundle_sha256": sha256(content).hexdigest(),
             "consistent": not findings, "checked_payloads": len(PAYLOAD_NAMES), "findings": findings,
             "scope": "Unsigned manifest consistency; no source, extraction, or scientific verification."}
+    if expected_sha256 is not None:
+        report["external_reference"] = {
+            "expected_bundle_sha256": expected_sha256,
+            "matches": report["bundle_sha256"] == expected_sha256,
+            "scope": "Comparison with a caller-supplied reference; its trust and origin are not established by this tool.",
+        }
+    return report

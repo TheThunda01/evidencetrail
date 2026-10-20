@@ -55,6 +55,22 @@ class VerificationTests(unittest.TestCase):
         payloads={n:b'new valid bytes' for n in PAYLOAD_NAMES}
         self.assertTrue(verify_bundle(make_bundle(payloads))['consistent'])
 
+    def test_external_reference_is_optional_and_checks_entire_zip(self):
+        raw=make_bundle()
+        baseline=verify_bundle(raw)
+        self.assertNotIn('external_reference',baseline)
+        matched=verify_bundle(raw,sha256(raw).hexdigest().upper())
+        self.assertTrue(matched['external_reference']['matches'])
+        self.assertEqual({k:v for k,v in matched.items() if k!='external_reference'},baseline)
+        changed=make_bundle({n:b'replaced with consistent payloads' for n in PAYLOAD_NAMES})
+        result=verify_bundle(changed,sha256(raw).hexdigest())
+        self.assertTrue(result['consistent'])
+        self.assertFalse(result['external_reference']['matches'])
+
+    def test_expected_digest_requires_exact_hexadecimal_value(self):
+        for value in ['', 'a'*63, 'g'*64, 1, ' '+ 'a'*64]:
+            with self.subTest(value=value),self.assertRaises(ValueError):verify_bundle(make_bundle(),value)
+
     def test_invalid_zip_and_duplicate_json_are_rejected(self):
         with self.assertRaises(ValueError):verify_bundle(b'not zip')
         out=BytesIO()
@@ -72,5 +88,17 @@ class VerificationTests(unittest.TestCase):
             old={n:n.encode() for n in PAYLOAD_NAMES}
             p.write_bytes(make_bundle({**old,'findings.csv':b'x'},payload_manifest(old)));self.assertEqual(run().returncode,1)
             p.write_bytes(b'bad');self.assertEqual(run().returncode,2)
+
+    def test_cli_expected_digest_exit_codes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p=Path(temp)/'audit.zip';raw=make_bundle();p.write_bytes(raw)
+            def run(digest):
+                return subprocess.run([sys.executable,'-m','evidencetrail.verify_bundle',str(p),'--expected-sha256',digest],capture_output=True,text=True)
+            self.assertEqual(run(sha256(raw).hexdigest()).returncode,0)
+            wrong=run('0'*64)
+            self.assertEqual(wrong.returncode,1)
+            self.assertTrue(json.loads(wrong.stdout)['consistent'])
+            self.assertFalse(json.loads(wrong.stdout)['external_reference']['matches'])
+            bad=run('bad');self.assertEqual(bad.returncode,2);self.assertEqual(bad.stdout,'')
 
 if __name__=='__main__':unittest.main()

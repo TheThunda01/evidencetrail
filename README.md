@@ -92,6 +92,14 @@ python -m evidencetrail.verify_bundle /tmp/evidencetrail-demo.zip
 
 Choose a new output path: the example builder refuses to overwrite a file. The verifier checks five payload files against an unsigned manifest; it does not authenticate the reviewer or the evidence.
 
+To compare a bundle with a separately obtained expected ZIP fingerprint, add `--expected-sha256`. This command illustrates the option using the pinned synthetic example:
+
+```sh
+python -m evidencetrail.verify_bundle examples/audit_bundle_v1.zip --expected-sha256 9475c42008d56afae7cd7f869620bc6faf62822c07c2f1b95958ebfbd036a820
+```
+
+For an actual handoff, obtain the expected digest through an independently trusted record. Copying it from the same received ZIP or replacing both together defeats that comparison. A matching reference is not a signature or a scientific check.
+
 ## Example results
 
 The synthetic audit contains 20 rows and five deliberately planted findings. The reviewer example yields 19 comparable pairs, 17 exact agreements and two differences. These are software fixtures, not research results. The bundle verifier reports five checked payloads and `consistent: true` for an unmodified new bundle; changing a payload without updating its manifest produces a mismatch.
@@ -147,6 +155,8 @@ The Python app's audit ZIP excludes the original upload and extracted answer val
 In the **browser demo**, selected CSV contents and decisions stay in browser memory. The demo does not transmit them, use a backend database, save them to browser storage, or load code from a third-party CDN. GitHub still receives normal requests for the page and its assets; its hosting documentation describes [visitor IP logging](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection).
 
 In the **Python app**, processing occurs on the machine running it. A local session uses your computer; a separately hosted instance sends uploaded files to that host, where administrators and infrastructure may have access to runtime data. The repository examples are synthetic; do not add participant data or confidential research records to the public repository. Neither version is a persistent research repository.
+
+The optional whole-ZIP check reports `external_reference.matches` separately from the existing `consistent` payload result. With the option supplied, either mismatch makes the CLI exit with status 1. Without it, the previous receipt format and behavior are preserved. See [the round-2 review update](docs/literature-review.md#question-and-scope) for the reasoning.
 
 ## Documentation
 

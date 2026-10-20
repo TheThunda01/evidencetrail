@@ -1,0 +1,102 @@
+{
+  "search_date": "2026-10-20",
+  "round": 2,
+  "scope": "Caller-supplied whole-ZIP reference digests for an existing audit bundle; a different implementation question on the same day as round 1.",
+  "inclusion_criteria": [
+    "Direct relevance to the assigned file-integrity or search-history decision",
+    "Primary practice studies and official technical specifications",
+    "Publication dates 2022-01-01 through 2026-10-20; foundational technical specifications retained separately"
+  ],
+  "exclusion_criteria": [
+    "Biological sequence canonicalization rather than exact archive-byte verification",
+    "No direct bearing on the optional external-reference contract"
+  ],
+  "searches": [
+    {
+      "source": "PubMed connector",
+      "query": "\"data integrity\"[Title/Abstract] AND (checksum[Title/Abstract] OR \"cryptographic hash\"[Title/Abstract]) AND research[Title/Abstract]",
+      "date_from": "2022/01/01",
+      "date_to": "2026/10/20",
+      "date_type": "publication",
+      "sort": "relevance",
+      "offset": 0,
+      "max_results": 10,
+      "max_abstract_chars": 5000,
+      "max_nested_results": 6,
+      "query_translation": "\"data integrity\"[Title/Abstract] AND (\"checksum\"[Title/Abstract] OR \"cryptographic hash\"[Title/Abstract]) AND \"research\"[Title/Abstract] AND 2022/01/01:2026/10/20[Date - Publication]",
+      "total_count": 2,
+      "returned_count": 2,
+      "retrieved_ids": [
+        "42566484",
+        "39484537"
+      ],
+      "has_more": false,
+      "next_offset": null,
+      "field_pages": [
+        {
+          "offset": 0,
+          "returned_count": 6,
+          "total_count": 7,
+          "next_offset": 6,
+          "has_more": true,
+          "field": "articles.42566484.authors",
+          "unit": "items"
+        },
+        {
+          "offset": 0,
+          "returned_count": 6,
+          "total_count": 7,
+          "next_offset": 6,
+          "has_more": true,
+          "field": "articles.39484537.authors",
+          "unit": "items"
+        }
+      ],
+      "limits": "All returned records screened by title and complete abstract; no later result page existed. Truncated author/keyword fields not continued."
+    }
+  ],
+  "screening": [
+    {
+      "id": "42566484",
+      "title": "SEGUID v2: Extending SEGUID checksums for circular, linear, single- and double-stranded biological sequences.",
+      "decision": "exclude",
+      "reason": "Sequence checksum representation is outside the archive-byte question.",
+      "access": "Complete abstract and citation inspected; no full-text appraisal."
+    },
+    {
+      "id": "39484537",
+      "title": "SEGUID v2: Extending SEGUID checksums for circular, linear, single- and double-stranded biological sequences.",
+      "decision": "exclude",
+      "reason": "Sequence checksum representation is outside the archive-byte question.",
+      "access": "Complete abstract and citation inspected; no full-text appraisal."
+    }
+  ],
+  "supplementary_lookups": [
+    {
+      "source": "RFC Editor",
+      "url": "https://www.rfc-editor.org/rfc/rfc8493",
+      "version": "October 2018, sections1.1,2.1.3,5.4",
+      "access": "Specified official sections inspected",
+      "consequence": "Digest matching does not establish origin; external reference remains caller-trusted."
+    },
+    {
+      "source": "Python official docs",
+      "url": "https://docs.python.org/3.12/library/hashlib.html",
+      "version": "Python3.12.15 documentation",
+      "access": "SHA256 constructor/hexdigest API inspected",
+      "consequence": "Compare hexadecimal digest of exact ZIP bytes; no new dependency."
+    }
+  ],
+  "counts": {
+    "returned_records": 2,
+    "unique_screened_ids": 2,
+    "new_publications_retained": 0,
+    "prior_publications_reused": 0,
+    "official_sources_inspected": 2
+  },
+  "limits": [
+    "Narrow single-database single-reviewer update with AI assistance; not a systematic review.",
+    "Same calendar date as round1; not evidence of a later surveillance interval.",
+    "No third-party implementation code copied; no external correctness certification."
+  ]
+}

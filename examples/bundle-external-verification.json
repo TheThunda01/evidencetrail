@@ -1,0 +1,13 @@
+{
+  "schema": "evidencetrail-verification/1",
+  "bundle_sha256": "9475c42008d56afae7cd7f869620bc6faf62822c07c2f1b95958ebfbd036a820",
+  "consistent": true,
+  "checked_payloads": 5,
+  "findings": [],
+  "scope": "Unsigned manifest consistency; no source, extraction, or scientific verification.",
+  "external_reference": {
+    "expected_bundle_sha256": "9475c42008d56afae7cd7f869620bc6faf62822c07c2f1b95958ebfbd036a820",
+    "matches": true,
+    "scope": "Comparison with a caller-supplied reference; its trust and origin are not established by this tool."
+  }
+}
