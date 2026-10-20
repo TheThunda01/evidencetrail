@@ -117,7 +117,8 @@ def show_audit() -> None:
     with field_tab:
         st.write("See recorded evidence states and missing supporting information for each extraction field.")
         st.dataframe(spreadsheet_safe_frame(completeness), hide_index=True, width="stretch")
-        st.caption("Counts describe the uploaded table. A nonblank value or source location is not evidence that the extraction is correct.")
+        st.caption("Status counts use all rows in each field. Source-locator coverage is provided / required: only Reported and Explicitly absent require a locator here. Not reported, Unclear, Not applicable, and invalid labels remain separate. A blank coverage value means no rows required a locator. A nonblank locator is not verified source support.")
+        st.download_button("Download field completeness CSV", spreadsheet_safe_frame(completeness).to_csv(index=False).encode("utf-8-sig"), "evidencetrail-field-completeness.csv", "text/csv")
     with records_tab:
         st.write("Read-only preview with your mapped column names. Literal text such as NA is kept as text.")
         st.dataframe(spreadsheet_safe_frame(source.frame), hide_index=True, width="stretch")

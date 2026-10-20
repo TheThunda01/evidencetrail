@@ -1,5 +1,6 @@
 """Descriptive status counts are distinct from structural or scientific validity."""
 
+import json
 import unittest
 
 import pandas as pd
@@ -30,6 +31,27 @@ class ProgressTests(unittest.TestCase):
         })
         self.assertEqual(sum(result[key] for key in result if key != "records"), result["records"])
         pd.testing.assert_frame_equal(frame, original)
+
+    def test_locator_coverage_has_status_specific_denominator(self):
+        frame = pd.DataFrame([
+            ["setting", "Reported", "National", "Page 2"],
+            ["setting", "Explicitly absent", "", ""],
+            ["setting", "Not reported", "", ""],
+            ["setting", "Not applicable", "", ""],
+            ["setting", "Unclear", "", ""],
+            ["other", "Not applicable", "", ""],
+            ["invalid", "reported", "National", "Page 3"],
+        ], columns=["field", "evidence_status", "value", "source_locator"])
+        result = evidence_completeness(frame).to_dict("records")
+        first, other, invalid = result
+        self.assertEqual((first["records"], first["source_locator_required"], first["source_locator_provided"]), (5, 2, 1))
+        self.assertEqual(first["source_locator_coverage"], 0.5)
+        self.assertEqual((first["not_reported"], first["not_applicable"], first["unclear"]), (1, 1, 1))
+        self.assertIsNone(other["source_locator_coverage"])
+        self.assertIsNone(invalid["source_locator_coverage"])
+        # Literal strings and optional blanks are never relabeled as truth/absence.
+        self.assertEqual(other["missing_reported_value"], 0)
+        json.dumps(result, allow_nan=False)
 
     def test_evidence_totals_and_required_metadata_match_audit_semantics(self):
         frame = pd.DataFrame([

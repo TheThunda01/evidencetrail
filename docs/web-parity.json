@@ -306,7 +306,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 1
+            "missing_source_locator": 1,
+            "source_locator_required": 5,
+            "source_locator_provided": 4,
+            "source_locator_coverage": 0.8
           },
           {
             "field": "Data sources",
@@ -318,7 +321,10 @@
             "not_applicable": 1,
             "invalid_evidence_status": 1,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 1,
+            "source_locator_provided": 1,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Information exchange",
@@ -330,7 +336,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 1,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 5,
+            "source_locator_provided": 5,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Public health action",
@@ -342,7 +351,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 5,
+            "source_locator_provided": 5,
+            "source_locator_coverage": 1.0
           }
         ]
       }
@@ -606,7 +618,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 5,
+            "source_locator_provided": 5,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Data sources",
@@ -618,7 +633,10 @@
             "not_applicable": 1,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 2,
+            "source_locator_provided": 2,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Information exchange",
@@ -630,7 +648,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 5,
+            "source_locator_provided": 5,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Public health action",
@@ -642,7 +663,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 5,
+            "source_locator_provided": 5,
+            "source_locator_coverage": 1.0
           }
         ]
       }
@@ -787,7 +811,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 2,
+            "source_locator_provided": 2,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Data sources",
@@ -799,7 +826,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 1,
+            "source_locator_provided": 1,
+            "source_locator_coverage": 1.0
           },
           {
             "field": "Information exchange",
@@ -811,7 +841,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 1
+            "missing_source_locator": 1,
+            "source_locator_required": 1,
+            "source_locator_provided": 0,
+            "source_locator_coverage": 0.0
           },
           {
             "field": "",
@@ -823,7 +856,10 @@
             "not_applicable": 0,
             "invalid_evidence_status": 0,
             "missing_reported_value": 0,
-            "missing_source_locator": 0
+            "missing_source_locator": 0,
+            "source_locator_required": 1,
+            "source_locator_provided": 1,
+            "source_locator_coverage": 1.0
           }
         ]
       }

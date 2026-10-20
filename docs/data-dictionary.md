@@ -57,6 +57,8 @@ The app groups rows by `field` and reports the number of records in each evidenc
 
 These counts describe recorded metadata. A nonblank value such as `NA` can satisfy the presence check while still needing researcher attention. The summary does not judge whether a field is complete enough for your research question.
 
+The direct **Download field completeness CSV** export includes `source_locator_required` (rows marked `Reported` or `Explicitly absent`), `source_locator_provided` (those rows with nonblank locator text), and `source_locator_coverage` (provided / required). A zero requirement produces JSON `null` and a blank CSV rate. Other evidence-status categories remain separate; an invalid status cannot establish a locator requirement. Counts include all submitted extraction rows, including duplicate identifiers and blank field names. They are not unique-study counts, and locator presence does not establish source support.
+
 ## Reviewer comparison
 
 The app matches rows using the pair `report_id` and `field`. That pair must be nonblank and unique within each reviewer table. This is stricter than the single-table audit, which permits repeated report/field pairs when each row has a unique `record_id`.

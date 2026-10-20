@@ -184,6 +184,11 @@ export function audit(table) {
     });
   }
   findings.sort((first, second) => first.row_numbers[0] - second.row_numbers[0] || RULES.indexOf(first.code) - RULES.indexOf(second.code));
+  for (const group of fieldGroups.values()) {
+    group.source_locator_required = group.reported + group.explicitly_absent;
+    group.source_locator_provided = group.source_locator_required - group.missing_source_locator;
+    group.source_locator_coverage = group.source_locator_required ? group.source_locator_provided / group.source_locator_required : null;
+  }
   return { findings, records_count: checked.rows.length, report_count: reportIds.size, review_counts, field_summary: [...fieldGroups.values()] };
 }
 

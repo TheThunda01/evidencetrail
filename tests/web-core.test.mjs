@@ -65,6 +65,23 @@ test("Undefined agreement and coverage rates remain null in exports", () => {
   assert.equal(blank.metrics.fields[0].agreement_fraction_both_nonblank,null);
 });
 
+test("Field locator coverage excludes statuses without a locator requirement", () => {
+  const result=audit(table([
+    record({record_id:'R1',field:'setting',evidence_status:'Reported',source_locator:'Page 2'}),
+    record({record_id:'R2',field:'setting',evidence_status:'Explicitly absent',value:'',source_locator:''}),
+    record({record_id:'R3',field:'setting',evidence_status:'Not reported',value:'',source_locator:''}),
+    record({record_id:'R4',field:'setting',evidence_status:'Not applicable',value:'',source_locator:''}),
+    record({record_id:'R5',field:'setting',evidence_status:'Unclear',value:'',source_locator:''}),
+    record({record_id:'R6',field:'other',evidence_status:'Not applicable',value:'',source_locator:''}),
+  ]));
+  const [first,other]=result.field_summary;
+  assert.deepEqual([first.records,first.source_locator_required,first.source_locator_provided,first.source_locator_coverage],[5,2,1,0.5]);
+  assert.deepEqual([first.not_reported,first.not_applicable,first.unclear],[1,1,1]);
+  assert.equal(other.source_locator_coverage,null);
+  assert.equal(other.missing_reported_value,0);
+  assert.equal(csvExport([other],['field','source_locator_coverage']), '\uFEFFfield,source_locator_coverage\r\nother,\r\n');
+});
+
 test("CSV accepts BOM, CRLF, quoted commas, doubled quotes and embedded newlines", () => {
   const parsed = parseCSV('\uFEFF id ,value\r\n001,"NA, null"\r\n002,"line one\r\nline ""two"""\r\n');
   assert.deepEqual(parsed, {

@@ -92,6 +92,8 @@ The app reads the selected data and runs the same checks used in the demonstrati
 
 The progress summary counts `Pending`, `Verified`, `Disagreement`, and invalid or blank review labels. The completeness table groups rows by their extraction field and shows evidence labels, missing reported answers, and missing required locators. These are descriptions of the uploaded table, not measurements of scientific quality.
 
+Use **Download field completeness CSV** in either version to keep that table. Locator coverage divides provided locators by rows marked `Reported` or `Explicitly absent`; both counts are exported. If no rows require locators, the rate is blank rather than zero. Other status categories remain separate, and locator presence is not source verification.
+
 ## 5. Download the audit
 
 Download the outputs you need:

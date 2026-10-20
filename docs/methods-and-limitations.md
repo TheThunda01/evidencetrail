@@ -54,6 +54,8 @@ Review progress counts the recorded `Pending`, `Verified`, and `Disagreement` la
 
 Field completeness groups rows by `field`, including blank field labels. It counts each evidence status, unrecognized labels, missing values for `Reported`, and missing locators for `Reported` or `Explicitly absent`. Counts do not measure whether the source was searched adequately, the locator is useful, or the answer is correct. Multiple defects can occur in one row.
 
+Source-locator coverage uses rows marked `Reported` or `Explicitly absent` as its denominator and the subset with nonblank locator text as its numerator. With no required locators the rate is undefined (`null` in JSON, blank in CSV). `Not reported`, `Unclear`, `Not applicable`, and invalid labels remain separate counts rather than being assigned a false zero answer. All submitted extraction rows remain in field counts, including duplicate identifiers. Both interfaces provide a direct CSV download; the Python audit bundle retains the same summary. These are metadata checks, not estimates of search completeness or evidence certainty.
+
 ## Reviewer comparison and decisions
 
 The interface matches two tables by `(report_id, field)`. Missing keys are excluded. If a key occurs more than once on either side, all rows with that key on both sides are excluded. The app does not choose among ambiguous matches. Usable keys found only on one side are reported separately.

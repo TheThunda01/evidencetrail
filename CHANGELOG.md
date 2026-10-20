@@ -9,6 +9,8 @@ This file records user-facing changes. Version 0.1.0 is the initial working prot
 - Pairing coverage for each reviewer table, using all submitted rows as the denominator, including rows blocked from comparison.
 - Separate nonblank exact-text agreement summaries for compared columns, with explicit numerators, denominators, and one-sided or joint blank counts.
 - Matching metric definitions in the Python and browser versions, with undefined rates when a denominator is empty.
+- Direct field-completeness CSV downloads in both interfaces, including status counts and required/provided source-locator coverage.
+- A concepts guide distinguishing studies, reports, outcomes, missing information, effect estimates, evidence certainty, and text agreement.
 
 ### Scope
 

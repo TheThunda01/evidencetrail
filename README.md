@@ -6,6 +6,8 @@ EvidenceTrail helps researchers inspect extraction tables, compare two reviewers
 
 **New here? [Read the project's background, rationale, and key themes](docs/project-context.md).**
 
+**Learn the concepts:** [Studies, reports, missingness, agreement, and evidence certainty](docs/biology-and-concepts.md).
+
 This is an early working prototype, version **0.3.0**. The included examples contain synthetic records. EvidenceTrail checks table structure and consistency; scientific accuracy still requires reviewing the sources.
 
 **[Try the live browser demo](https://thethunda01.github.io/evidencetrail/)** · No account or installation needed. Start with the synthetic examples, or select a CSV that stays in your browser.
@@ -23,6 +25,7 @@ EvidenceTrail makes a first pass at those inconsistencies visible. A researcher 
 - Reads extraction tables, with explicit mapping from your column names to seven required fields.
 - Checks identifiers, status labels, values, and source locations, with explanations and suggested next steps.
 - Summarizes recorded review progress and evidence completeness by extraction field.
+- Downloads field-level status counts and source-locator coverage with explicit required/provided denominators.
 - Compares two reviewer tables by report and field, keeping differences in answers separate from differences in source locations.
 - Shows how much of each table could be paired and how often nonblank entries match, with the counts behind each rate.
 - Records your choice, name or identifier, and reason for a reviewer decision, while preserving both submitted answers.

@@ -95,6 +95,15 @@ class AppTests(unittest.TestCase):
         self.assertEqual(agreement["Compared field"].tolist(), ["value", "evidence_status"])
         self.assertTrue(any(item.label == "Download comparison metrics JSON" for item in self.app.get("download_button")))
 
+    def test_field_summary_exposes_denominators_and_download(self):
+        self.app.run()
+        self.assertEqual(len(self.app.exception), 0)
+        summary=self.app.dataframe[1].value
+        self.assertIn("source_locator_required",summary.columns)
+        self.assertIn("source_locator_provided",summary.columns)
+        self.assertIn("source_locator_coverage",summary.columns)
+        self.assertTrue(any(item.label == "Download field completeness CSV" for item in self.app.get("download_button")))
+
     def test_decision_requires_reason_and_replaces_current_pair_entry(self):
         self.compare()
         prefixed(self.app.button, "save_").click().run()

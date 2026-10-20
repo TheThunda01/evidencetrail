@@ -14,6 +14,7 @@ from .mapping import _headers
 COMPLETENESS_COLUMNS = (
     "field", "records", "reported", "not_reported", "unclear", "explicitly_absent",
     "not_applicable", "invalid_evidence_status", "missing_reported_value", "missing_source_locator",
+    "source_locator_required", "source_locator_provided", "source_locator_coverage",
 )
 
 
@@ -66,4 +67,14 @@ def evidence_completeness(frame: pd.DataFrame) -> pd.DataFrame:
         group[labels.get(status, "invalid_evidence_status")] += 1
         group["missing_reported_value"] += int(status == "Reported" and not value)
         group["missing_source_locator"] += int(status in ("Reported", "Explicitly absent") and not locator)
-    return pd.DataFrame(list(groups.values()), columns=COMPLETENESS_COLUMNS)
+    for group in groups.values():
+        required = group["reported"] + group["explicitly_absent"]
+        provided = required - group["missing_source_locator"]
+        group["source_locator_required"] = required
+        group["source_locator_provided"] = provided
+        group["source_locator_coverage"] = provided / required if required else None
+    result = pd.DataFrame(list(groups.values()), columns=COMPLETENESS_COLUMNS)
+    # Keep undefined ratios as None rather than pandas NaN in JSON exports.
+    result["source_locator_coverage"] = pd.Series(
+        [group["source_locator_coverage"] for group in groups.values()], dtype=object)
+    return result
