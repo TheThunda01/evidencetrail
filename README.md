@@ -167,6 +167,7 @@ The optional whole-ZIP check reports `external_reference.matches` separately fro
 | [Reference list](docs/references.md) | Complete citations and the role of each source |
 | [Reference audit](docs/reference-audit.json) | Source checks, access levels, and remaining limitations |
 | [Editorial review](docs/review-2026-10-20.md) | Corrections and checks completed on October 20, 2026 |
+| [Maintenance and source review](docs/review-2026-10-21.md) | Current fixes, source checks, validation, and remaining limits |
 | [Project context](docs/project-context.md) | Background, rationale, and key themes |
 | [Biology and concepts](docs/biology-and-concepts.md) | Studies, reports, missingness, agreement, and certainty |
 | [Methods and limitations](docs/methods-and-limitations.md) | Exact checks, denominators, and boundaries |
