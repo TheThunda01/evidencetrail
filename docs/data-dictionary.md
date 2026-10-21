@@ -59,7 +59,7 @@ The app groups rows by `field` and reports the number of records in each evidenc
 
 These counts describe recorded metadata. A nonblank value such as `NA` can satisfy the presence check while still needing researcher attention. The summary does not judge whether a field is complete enough for your research question.
 
-The direct **Download field completeness CSV** export includes `source_locator_required` (rows marked `Reported` or `Explicitly absent`), `source_locator_provided` (those rows with nonblank locator text), and `source_locator_coverage` (provided / required). A zero requirement produces JSON `null` and a blank CSV rate. Other evidence-status categories remain separate; an invalid status cannot establish a locator requirement. Counts include all submitted extraction rows, including duplicate identifiers and blank field names. They are not unique-study counts, and locator presence does not establish source support.
+The direct **Download field completeness CSV** export includes `source_locator_required` (rows marked `Reported` or `Explicitly absent`), `source_locator_provided` (those rows with nonblank locator text), and `source_locator_coverage` ($`\frac{\text{provided locators}}{\text{required locators}}`$). A zero requirement produces JSON `null` and a blank CSV rate. Other evidence-status categories remain separate; an invalid status cannot establish a locator requirement. Counts include all submitted extraction rows, including duplicate identifiers and blank field names. They are not unique-study counts, and locator presence does not establish source support.
 
 ## Reviewer comparison
 
@@ -86,14 +86,14 @@ Both interfaces display these metrics and offer **Download comparison metrics JS
 | `pairing[].reviewer` | `left` for the first table, `right` for the second. |
 | `input_rows` | All submitted rows on that side, including excluded rows. |
 | `matched_rows`, `unmatched_rows`, `blocked_rows` | Disjoint counts that sum to `input_rows`. A unique counterpart of a duplicated key is blocked. |
-| `coverage_fraction` | `matched_rows / input_rows` on that side. |
+| `coverage_fraction` | $`\frac{\text{matched rows}}{\text{input rows}}`$ on that side. |
 | `fields[].field` | Compared column, currently `value` or `evidence_status` in the interfaces. |
 | `matched_pairs` | Pairs with unique, complete keys present in both tables. |
 | `both_nonblank` | Matched pairs containing nonblank text in this column on both sides. |
 | `exact_matches_both_nonblank` | Those nonblank pairs with identical trimmed text. |
-| `agreement_fraction_both_nonblank` | `exact_matches_both_nonblank / both_nonblank`. |
+| `agreement_fraction_both_nonblank` | $`\frac{\text{exact nonblank matches}}{\text{pairs nonblank on both sides}}`$. |
 | `left_blank_only`, `right_blank_only`, `both_blank` | Remaining matched pairs, classified by blank text in this column. These counts plus `both_nonblank` equal `matched_pairs`. |
-| `raw_exact_pair_agreement` | Exact matching across all compared columns, including matching blanks, with `exact_matches`, `matched_pairs`, and their ratio `fraction`. |
+| `raw_exact_pair_agreement` | Exact matching across all compared columns, including matching blanks, with `exact_matches`, `matched_pairs`, and their ratio `fraction`: $`\frac{\text{exact matching pairs}}{\text{matched pairs}}`$. |
 
 Blank values can be appropriate under an evidence-status label. These summaries describe recorded text and pairing coverage; they do not establish correct extraction, reviewer reliability, or scientific validity.
 

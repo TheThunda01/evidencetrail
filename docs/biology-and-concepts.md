@@ -42,7 +42,7 @@ A useful decision record retains both answers, the chosen resolution, who record
 
 A file fingerprint identifies input bytes; it does not authenticate a publication or verify an extraction. Session decisions can be replaced, and downloaded files can be edited. This is not an append-only or tamper-proof research record. Preserve exports in the team's agreed records system.
 
-The field-completeness download makes another denominator visible: **provided locators / rows requiring locators**. A field containing only `Not applicable` rows has an undefined locator-coverage rate, not zero or 100%. Even 100% means only that required locator text was present.
+The field-completeness download makes another denominator visible: $`\frac{\text{provided locators}}{\text{rows requiring locators}}`$. A field containing only `Not applicable` rows has an undefined locator-coverage rate, not zero or 100%. Even 100% means only that required locator text was present.
 
 ## Related tools and ideas
 

@@ -56,7 +56,13 @@ Review progress counts the recorded `Pending`, `Verified`, and `Disagreement` la
 
 Field completeness groups rows by `field`, including blank field labels. It counts each evidence status, unrecognized labels, missing values for `Reported`, and missing locators for `Reported` or `Explicitly absent`. Counts do not measure whether the source was searched adequately, the locator is useful, or the answer is correct. Multiple defects can occur in one row.
 
-Source-locator coverage uses rows marked `Reported` or `Explicitly absent` as its denominator and the subset with nonblank locator text as its numerator. With no required locators the rate is undefined (`null` in JSON, blank in CSV). `Not reported`, `Unclear`, `Not applicable`, and invalid labels remain separate counts rather than being assigned a false zero answer. All submitted extraction rows remain in field counts, including duplicate identifiers. Both interfaces provide a direct CSV download; the Python audit bundle retains the same summary. These are metadata checks, not estimates of search completeness or evidence certainty.
+Source-locator coverage uses rows marked `Reported` or `Explicitly absent` as its denominator and the subset with nonblank locator text as its numerator.
+
+```math
+\text{Source-locator coverage}=\frac{\text{required rows with a locator}}{\text{rows requiring a locator}}
+```
+
+With no required locators the rate is undefined (`null` in JSON, blank in CSV). `Not reported`, `Unclear`, `Not applicable`, and invalid labels remain separate counts rather than being assigned a false zero answer. All submitted extraction rows remain in field counts, including duplicate identifiers. Both interfaces provide a direct CSV download; the Python audit bundle retains the same summary. These are metadata checks, not estimates of search completeness or evidence certainty.
 
 ## Reviewer comparison and decisions
 
@@ -66,9 +72,21 @@ Matched rows agree only when their `value` and `evidence_status` match after tri
 
 ### Comparison metrics
 
-Pairing coverage is calculated separately for each submitted table: the number of matched, unique, complete keys divided by the number of submitted rows on that side. Rows blocked by missing or duplicate keys remain in that denominator, as do usable rows found only on that side. The numerator is the same for both reviewers, but the denominators can differ. A table with no rows has an undefined rate, represented as `null` in JSON. Coverage describes which submitted rows could be compared; it does not measure how completely either reviewer searched a source.
+Pairing coverage is calculated separately for each submitted table: the number of matched, unique, complete keys divided by the number of submitted rows on that side. Rows blocked by missing or duplicate keys remain in that denominator, as do usable rows found only on that side. The numerator is the same for both reviewers, but the denominators can differ.
 
-Nonblank agreement is calculated separately for each compared column, currently `value` and `evidence_status`. Among matched keys, the denominator is the number of pairs with nonblank text on both sides, and the numerator is the number of those pairs with identical trimmed text. The summary also counts first-reviewer-only blanks, second-reviewer-only blanks, and joint blanks. These categories make it possible to account for every matched pair without treating a missing entry as an answer. If no pairs contain text on both sides, the rate is undefined rather than zero.
+```math
+\text{Pairing coverage}=\frac{\text{matched rows}}{\text{submitted rows on that side}}
+```
+
+A table with no rows has an undefined rate, represented as `null` in JSON. Coverage describes which submitted rows could be compared; it does not measure how completely either reviewer searched a source.
+
+Nonblank agreement is calculated separately for each compared column, currently `value` and `evidence_status`. Among matched keys, the denominator is the number of pairs with nonblank text on both sides, and the numerator is the number of those pairs with identical trimmed text.
+
+```math
+\text{Nonblank agreement}=\frac{\text{exact nonblank matches}}{\text{pairs nonblank on both sides}}
+```
+
+The summary also counts first-reviewer-only blanks, second-reviewer-only blanks, and joint blanks. These categories make it possible to account for every matched pair without treating a missing entry as an answer. If no pairs contain text on both sides, the rate is undefined rather than zero.
 
 The overall exact-match count retains its original definition: all compared columns must match within a pair, and matching blanks count as text matches. It therefore answers a different question from nonblank agreement. A blank `value` may be appropriate for statuses such as `Not reported` or `Not applicable`; the audit rules and source review determine whether a particular blank needs correction.
 
