@@ -1,5 +1,7 @@
 # EvidenceTrail: background and purpose
 
+Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
+
 ## The question behind the project
 
 When a review team has collected answers from research reports, what still needs checking before those answers are used in a synthesis?
@@ -8,7 +10,7 @@ An extraction spreadsheet can look complete while hiding missing source location
 
 ## Why build it?
 
-The [Cochrane Handbook's chapter on collecting data](https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-05) discusses piloting extraction forms, independent extraction, and planning how disagreements will be resolved. [Afifi and colleagues' methods paper](https://doi.org/10.1186/s13643-023-02322-1) describes practical steps for defining, comparing, and adjudicating extraction records. These sources motivate the workflow; neither evaluates EvidenceTrail or establishes that it improves review outcomes.
+The [Li et al. (2024): Cochrane Handbook's chapter on collecting data](https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-05) discusses piloting extraction forms, independent extraction, and planning how disagreements will be resolved. [Afifi et al. (2023): Afifi and colleagues' methods paper](https://doi.org/10.1186/s13643-023-02322-1) describes practical steps for defining, comparing, and adjudicating extraction records. These sources motivate the workflow; neither evaluates EvidenceTrail or establishes that it improves review outcomes.
 
 The design starts with a familiar tool: a spreadsheet. Researchers can map their existing column names, inspect findings, and export a record of what needs attention without replacing their whole review process.
 

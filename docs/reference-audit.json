@@ -1,0 +1,472 @@
+{
+  "review_date": "2026-10-20",
+  "scope": "Authored active documentation and UI; substantive sources in retained dated research notes. Screening-only search hits and inherited Microsoft-template tutorials are historical material, not scientific citations supporting this project.",
+  "limits": [
+    "This is a targeted reference and editorial audit, not an exhaustive systematic review.",
+    "Current access levels are recorded per source. Historical search logs and their access descriptions are preserved.",
+    "Official software feature pages are descriptions, not independent evidence of efficacy."
+  ],
+  "references": [
+    {
+      "id": "pmid-37286149",
+      "source_type": "peer_reviewed_article",
+      "title": "Systematic reviewers used various approaches to data extraction and expressed several research needs: a survey.",
+      "authors": "Roland Brian Büchter et al.",
+      "year": 2023,
+      "url": "https://doi.org/10.1016/j.jclinepi.2023.05.027",
+      "pmid": "37286149",
+      "doi": "10.1016/j.jclinepi.2023.05.027",
+      "journal": "Journal of clinical epidemiology",
+      "volume": "159",
+      "issue": null,
+      "pages": "214-224",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "In a self-selected survey of 162 reviewers, spreadsheets and adapted extraction forms were common."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Survey responses do not represent all review teams."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/37286149/"
+      ]
+    },
+    {
+      "id": "pmid-39764599",
+      "source_type": "peer_reviewed_article",
+      "title": "Effects of double data extraction on errors in evidence synthesis: a crossover, multicenter, investigator-blinded, randomized controlled trial.",
+      "authors": "Lijun Tang et al.",
+      "year": 2025,
+      "url": "https://doi.org/10.1093/postmj/qgae195",
+      "pmid": "39764599",
+      "doi": "10.1093/postmj/qgae195",
+      "journal": "Postgraduate medical journal",
+      "volume": "101",
+      "issue": "1197",
+      "pages": "603-611",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Cross-checking reduced but did not eliminate errors in the tested binary adverse-outcome extraction task."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "100 participants; study-level and cell-level error rates have different denominators. No universal error rate follows."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/39764599/"
+      ]
+    },
+    {
+      "id": "pmid-38041161",
+      "source_type": "peer_reviewed_article",
+      "title": "Data extraction and comparison for complex systematic reviews: a step-by-step guideline and an implementation example using open-source software.",
+      "authors": "Mohamed Afifi, Henrik Stryhn, Javier Sanchez",
+      "year": 2023,
+      "url": "https://doi.org/10.1186/s13643-023-02322-1",
+      "pmid": "38041161",
+      "doi": "10.1186/s13643-023-02322-1",
+      "journal": "Systematic reviews",
+      "volume": "12",
+      "issue": "1",
+      "pages": "226",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "The authors describe a structured extraction, comparison and adjudication workflow with Epi Info and R."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Methods proposal and worked implementation, not an effectiveness trial of EvidenceTrail."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/38041161/"
+      ]
+    },
+    {
+      "id": "pmid-41183336",
+      "source_type": "peer_reviewed_article",
+      "title": "Artificial Intelligence-Assisted Data Extraction With a Large Language Model: A Study Within Reviews.",
+      "authors": "Gerald Gartlehner et al.",
+      "year": 2025,
+      "url": "https://doi.org/10.7326/ANNALS-25-00739",
+      "pmid": "41183336",
+      "doi": "10.7326/ANNALS-25-00739",
+      "journal": "Annals of internal medicine",
+      "volume": "178",
+      "issue": "12",
+      "pages": "1763-1771",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "The evaluated AI-assisted workflow retained human verification; omissions remained an error category."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Six reviews, 63 studies and particular models; shared errors may escape disagreement-only adjudication. Historical review records its own access level."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/41183336/"
+      ]
+    },
+    {
+      "id": "pmid-41396533",
+      "source_type": "peer_reviewed_article",
+      "title": "Data extraction by generative artificial intelligence: Assessing determinants of accuracy using human-extracted data from systematic review databases.",
+      "authors": "Thorben Jansen et al.",
+      "year": 2025,
+      "url": "https://doi.org/10.1037/bul0000501",
+      "pmid": "41396533",
+      "doi": "10.1037/bul0000501",
+      "journal": "Psychological bulletin",
+      "volume": "151",
+      "issue": "10",
+      "pages": "1280-1306",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Accuracy varied by extraction variable; detailed definitions were associated with higher accuracy."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Association is not a causal test of this interface; reference data were human-extracted."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/41396533/"
+      ]
+    },
+    {
+      "id": "pmid-38895747",
+      "source_type": "peer_reviewed_article",
+      "title": "Performance of two large language models for data extraction in evidence synthesis.",
+      "authors": "Amanda Konet et al.",
+      "year": 2024,
+      "url": "https://doi.org/10.1002/jrsm.1732",
+      "pmid": "38895747",
+      "doi": "10.1002/jrsm.1732",
+      "journal": "Research synthesis methods",
+      "volume": "15",
+      "issue": "5",
+      "pages": "818-824",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "PDF parsing and the supplied input affected extraction results in a ten-article model comparison."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Small historical model comparison; training-data overlap was unknown."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/38895747/"
+      ]
+    },
+    {
+      "id": "pmid-41626895",
+      "source_type": "peer_reviewed_article",
+      "title": "Automating the data extraction process for systematic reviews using GPT-4o and o3.",
+      "authors": "Yuki Kataoka et al.",
+      "year": 2026,
+      "url": "https://doi.org/10.1017/rsm.2025.10030",
+      "pmid": "41626895",
+      "doi": "10.1017/rsm.2025.10030",
+      "journal": "Research synthesis methods",
+      "volume": "17",
+      "issue": "1",
+      "pages": "42-62",
+      "checked_on": "2026-10-20",
+      "access_level": "abstract",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Performance varied with variable type and evaluation dataset."
+      ],
+      "limitations": [
+        "Current appraisal used the PubMed abstract, not the full article or supplements.",
+        "Small later evaluations; external-set performance after method adjustment is not an untouched external test. Historical partial full-text access is preserved separately."
+      ],
+      "corrections": [],
+      "alternate_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/41626895/"
+      ]
+    },
+    {
+      "id": "cochrane-05",
+      "source_type": "official_documentation",
+      "title": "Chapter 5: Collecting data",
+      "authors": "Li T, Higgins JPT, Deeks JJ",
+      "year": 2024,
+      "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-05",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Studies and reports are distinct; extraction should retain their relationships.",
+        "Structured, piloted forms and planned handling of disagreements support transparent extraction."
+      ],
+      "limitations": [
+        "Chapter last updated October 2019; handbook citation is version 6.5 (2024). Guidance does not evaluate either project."
+      ],
+      "corrections": [],
+      "version": "6.5"
+    },
+    {
+      "id": "cochrane-14",
+      "source_type": "official_documentation",
+      "title": "Chapter 14: Completing Summary of findings tables and grading the certainty of the evidence",
+      "authors": "Schünemann HJ et al.",
+      "year": 2024,
+      "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-14",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "GRADE evaluates certainty by outcome across a body of evidence; populated cells do not establish certainty."
+      ],
+      "limitations": [
+        "Chapter last updated August 2023; guidance is for intervention evidence, not a software quality score."
+      ],
+      "corrections": [],
+      "version": "6.5"
+    },
+    {
+      "id": "jbi-2024",
+      "source_type": "official_documentation",
+      "title": "JBI Manual for Evidence Synthesis",
+      "authors": "Aromataris E, Lockwood C, Porritt K, Pilla B, Jordan Z, editors",
+      "year": 2024,
+      "url": "https://jbi-global-wiki.refined.site/download/attachments/355599504/JBI%20Manual%20for%20Evidence%20Synthesis%202024.pdf",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Section 10.2.7 recommends trying scoping-review charting forms on two or three sources with at least two team members; transparent alternatives may be considered."
+      ],
+      "limitations": [
+        "March 2024 PDF, printed page 170 (zero-based PDF page 169); later online chapter numbering differs. Only relevant sections were inspected."
+      ],
+      "corrections": [],
+      "version": "March 2024"
+    },
+    {
+      "id": "covidence-extraction-1",
+      "source_type": "official_documentation",
+      "title": "How to do comparison and consensus in Extraction 1",
+      "authors": "Covidence",
+      "year": 2026,
+      "url": "https://support.covidence.org/en/help/comparison-and-consensus",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Documents dual-reviewer comparison and consensus handling."
+      ],
+      "limitations": [
+        "Product documentation, not comparative effectiveness evidence."
+      ],
+      "corrections": [],
+      "version": "Updated 2026-08-16"
+    },
+    {
+      "id": "covidence-extraction-2",
+      "source_type": "official_documentation",
+      "title": "How to do comparison and consensus in Extraction 2",
+      "authors": "Covidence",
+      "year": 2026,
+      "url": "https://support.covidence.org/help/consensus-9831e0af",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Documents separate reviewer forms, conflict display and final decisions."
+      ],
+      "limitations": [
+        "Product documentation; both reviewers leaving a field blank does not raise a conflict."
+      ],
+      "corrections": [],
+      "version": "Updated 2026-08-14"
+    },
+    {
+      "id": "redcap",
+      "source_type": "official_documentation",
+      "title": "REDCap software",
+      "authors": "REDCap Consortium",
+      "year": null,
+      "url": "https://projectredcap.org/software/",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "REDCap supports data dictionaries, online surveys and databases."
+      ],
+      "limitations": [
+        "Feature descriptions are vendor documentation, not evidence of benefit from EvidenceTrail."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "epi-info",
+      "source_type": "official_documentation",
+      "title": "Epi Info product notice",
+      "authors": "Centers for Disease Control and Prevention",
+      "year": 2025,
+      "url": "https://www.cdc.gov/epiinfo/index.html",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "corrected",
+      "supported_claims": [
+        "CDC reports that Epi Info product development and technical assistance ended in September 2025."
+      ],
+      "limitations": [
+        "Historical methods example is retained; this is not a current support recommendation."
+      ],
+      "corrections": [
+        "Added current support-status context to the retained historical comparison."
+      ]
+    },
+    {
+      "id": "asreview-repository",
+      "source_type": "official_documentation",
+      "title": "ASReview LAB repository",
+      "authors": "ASReview developers",
+      "year": null,
+      "url": "https://github.com/asreview/asreview",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "The project implements model-assisted prioritization using human screening labels."
+      ],
+      "limitations": [
+        "Repository README advertised version 3 when checked; the cited 2025 paper evaluates version 2. No code or performance is transferred to these projects."
+      ],
+      "corrections": [],
+      "version": "README accessed 2026-10-20"
+    },
+    {
+      "id": "revtools",
+      "source_type": "official_documentation",
+      "title": "revtools: Tools to support research synthesis in R",
+      "authors": "Westgate MJ and contributors",
+      "year": null,
+      "url": "https://github.com/mjwestgate/revtools",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Repository identifies the project as research-synthesis tools in R."
+      ],
+      "limitations": [
+        "Repository body did not expose detailed feature documentation in this retrieval; detailed import/screening claims are therefore not retained as verified current features."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "revman",
+      "source_type": "official_documentation",
+      "title": "RevMan",
+      "authors": "Cochrane",
+      "year": null,
+      "url": "https://www.cochrane.org/products-and-services/review-writing-software",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "corrected",
+      "supported_claims": [
+        "Cochrane describes study-data management, analysis and reporting features."
+      ],
+      "limitations": [
+        "Product description does not establish comparative effectiveness."
+      ],
+      "corrections": [
+        "Replaced the redirected legacy features URL with its current canonical destination."
+      ]
+    },
+    {
+      "id": "rfc8493",
+      "source_type": "official_documentation",
+      "title": "The BagIt File Packaging Format (V1.0)",
+      "authors": "Kunze J, Littman J, Madden E, Scancella J, Adams C",
+      "year": 2018,
+      "url": "https://www.rfc-editor.org/rfc/rfc8493",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Manifests support checking payload integrity; section 5.4 explicitly excludes protection against active attacks."
+      ],
+      "limitations": [
+        "Informational specification; EvidenceTrail uses a custom manifest and does not implement BagIt."
+      ],
+      "corrections": [],
+      "version": "RFC 8493"
+    },
+    {
+      "id": "python-hashlib",
+      "source_type": "official_documentation",
+      "title": "hashlib — Secure hashes and message digests",
+      "authors": "Python Software Foundation",
+      "year": null,
+      "url": "https://docs.python.org/3.12/library/hashlib.html",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "SHA-256 hashes byte inputs and can emit hexadecimal digests."
+      ],
+      "limitations": [
+        "Hashing is not encryption, authentication or scientific validation."
+      ],
+      "corrections": [],
+      "version": "Python 3.12 documentation"
+    },
+    {
+      "id": "github-pages-privacy",
+      "source_type": "official_documentation",
+      "title": "What is GitHub Pages?",
+      "authors": "GitHub",
+      "year": null,
+      "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "GitHub Pages logs visitor IP addresses even without sign-in."
+      ],
+      "limitations": [
+        "Selected table contents staying in browser memory does not mean the host receives no page requests."
+      ],
+      "corrections": []
+    },
+    {
+      "id": "github-pages-publishing",
+      "source_type": "official_documentation",
+      "title": "Configuring a publishing source for your GitHub Pages site",
+      "authors": "GitHub",
+      "year": null,
+      "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+      "checked_on": "2026-10-20",
+      "access_level": "official_documentation",
+      "metadata_status": "verified",
+      "supported_claims": [
+        "Pages supports branch publishing from the root or docs folder."
+      ],
+      "limitations": [
+        "Instructions depend on repository permissions and settings; no deployment was performed in this review."
+      ],
+      "corrections": []
+    }
+  ]
+}

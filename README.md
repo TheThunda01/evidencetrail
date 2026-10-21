@@ -2,7 +2,7 @@
 
 **A small research tool for checking extraction tables before the next review step.**
 
-EvidenceTrail helps researchers inspect extraction tables, compare two reviewers' records, and document the decisions that follow. It finds missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements, then turns those checks into downloadable reports.
+An extraction table stores information taken from source reports, one defined item per row. EvidenceTrail helps researchers inspect these tables, compare two reviewers' records, and document the decisions that follow. It finds missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements, then turns those checks into downloadable reports.
 
 **New here? [Read the project's background, rationale, and key themes](docs/project-context.md).**
 
@@ -29,22 +29,22 @@ EvidenceTrail makes a first pass at those inconsistencies visible. A researcher 
 - Compares two reviewer tables by report and field, keeping differences in answers separate from differences in source locations.
 - Shows how much of each table could be paired and how often nonblank entries match, with the counts behind each rate.
 - Records your choice, name or identifier, and reason for a reviewer decision, while preserving both submitted answers.
-- Exports findings and reviewer decision records with input-file fingerprints and other provenance. The Python app also provides an audit ZIP bundle.
-- Adds a SHA-256 manifest to Python audit bundles, with an offline verifier for missing or changed payloads.
+- Exports findings and reviewer decision records with input-file fingerprints and other provenance. The Python app also provides a ZIP archive containing audit reports.
+- Adds a SHA-256 file manifest (a list of exact-byte fingerprints) to Python audit bundles, with an offline verifier for missing or changed payloads.
 - Includes a 20-row demonstration with five planted findings, a clean table, a blank template, and paired reviewer examples.
 
 There are two ways to use EvidenceTrail:
 
 | | Browser demo | Full Python app |
 | --- | --- | --- |
-| Input | CSV | CSV or an Excel `.xlsx` sheet |
+| Input | Comma-separated values (CSV) | CSV or an Excel `.xlsx` workbook sheet |
 | Checks, column mapping, progress and field summaries | Yes | Yes |
 | Reviewer comparison and decision CSV/JSON | Yes | Yes |
 | Audit ZIP bundle | No | Yes |
 | Processing | In your browser; selected file contents are not uploaded | On the machine running the Python app |
 | Setup | Static site, designed for GitHub Pages | Local Python installation |
 
-Both versions leave your input files unchanged and use temporary working state. Each file can be up to **5 MiB**, with up to **10,000 data rows** and **50 columns**. In the Python app, Excel workbooks also have a 25 MiB limit on expanded contents, and the selected sheet must contain values rather than formulas.
+JSON means JavaScript Object Notation, the structured-text format used for several exports. A mebibyte (MiB) is 1,048,576 bytes. Both versions leave your input files unchanged and use temporary working state. Each file can be up to **5 MiB**, with up to **10,000 data rows** and **50 columns**. In the Python app, Excel workbooks also have a 25 MiB limit on expanded contents, and the selected sheet must contain values rather than formulas.
 
 The [live demo](https://thethunda01.github.io/evidencetrail/) is published from this repository with GitHub Pages. The [hosting guide](docs/deployment.md) explains how it is maintained. See [getting started](docs/getting-started.md) for the differences between versions.
 
@@ -152,7 +152,7 @@ Both versions keep working data and current reviewer decisions in memory. They d
 
 The Python app's audit ZIP excludes the original upload and extracted answer values, but includes record IDs, field labels, source filenames, mappings, and other audit metadata. The browser audit JSON also contains identifiers and field summaries. Reviewer comparison and decision downloads include the submitted answers and locators. Inspect exports before sharing them.
 
-In the **browser demo**, selected CSV contents and decisions stay in browser memory. The demo does not transmit them, use a backend database, save them to browser storage, or load code from a third-party CDN. GitHub still receives normal requests for the page and its assets; its hosting documentation describes [visitor IP logging](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection).
+In the **browser demo**, selected CSV contents and decisions stay in browser memory. The demo does not transmit them, use a backend database, save them to browser storage, or load code from a third-party content delivery network (CDN). GitHub still receives normal requests for the page and its assets; its hosting documentation describes [visitor Internet Protocol (IP) address logging](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection).
 
 In the **Python app**, processing occurs on the machine running it. A local session uses your computer; a separately hosted instance sends uploaded files to that host, where administrators and infrastructure may have access to runtime data. The repository examples are synthetic; do not add participant data or confidential research records to the public repository. Neither version is a persistent research repository.
 
@@ -162,6 +162,11 @@ The optional whole-ZIP check reports `external_reference.matches` separately fro
 
 | Page | Purpose |
 | --- | --- |
+| [Glossary](docs/glossary.md) | Definitions of scientific, statistical, and software terms |
+| [Assumptions](docs/assumptions.md) | Rationale, checks, and consequences of each material assumption |
+| [Reference list](docs/references.md) | Complete citations and the role of each source |
+| [Reference audit](docs/reference-audit.json) | Source checks, access levels, and remaining limitations |
+| [Editorial review](docs/review-2026-10-20.md) | Corrections and checks completed on October 20, 2026 |
 | [Project context](docs/project-context.md) | Background, rationale, and key themes |
 | [Biology and concepts](docs/biology-and-concepts.md) | Studies, reports, missingness, agreement, and certainty |
 | [Methods and limitations](docs/methods-and-limitations.md) | Exact checks, denominators, and boundaries |
@@ -193,7 +198,7 @@ The browser parity tests compare known examples with the Python implementation. 
 
 The [research review](docs/research-review-2026-10-13.md) explains the scientific and practical guidance behind the expansion, including where established tools already address these needs. This is an evidence-informed design, not a validated intervention.
 
-Future work could add configurable validation schemas, additional table structures, and carefully evaluated PDF or AI assistance. A user pilot should assess mapping usability and how people find and resolve known issues before claims are made about research benefits.
+Future work could add configurable validation schemas, additional table structures, and carefully evaluated Portable Document Format (PDF) or artificial intelligence (AI) assistance. A user pilot should assess mapping usability and how people find and resolve known issues before claims are made about research benefits.
 
 See [CHANGELOG.md](CHANGELOG.md) for the version history.
 

@@ -1,5 +1,7 @@
 # Data dictionary
 
+Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
+
 EvidenceTrail uses a table with one row for each extracted field. A report can have many extraction rows. Each row must have a distinct `record_id`, even when it shares a `report_id` with other rows.
 
 The same required fields, evidence labels, and comparison rules apply to both versions. The browser demo reads CSV files in browser memory; the full Python app also reads selected Excel sheets. See [methods and limitations](methods-and-limitations.md) for their different processing and export paths.

@@ -52,6 +52,7 @@ with st.sidebar:
     st.caption("A person still needs to read the sources and judge the evidence. Recorded statuses and agreement are not independent verification.")
 
 st.title("A clearer trail from finding to source.")
+st.caption("An extraction field is one item collected from a source report. CSV means comma-separated values; XLSX is an Excel workbook; JSON is a structured text export; ZIP holds several files. A SHA-256 fingerprint describes exact file bytes, not the truth of their contents.")
 
 
 def show_audit() -> None:

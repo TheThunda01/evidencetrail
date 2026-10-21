@@ -1,5 +1,7 @@
 # Research needs and development decisions
 
+> Editorial note, October 20, 2026: this is a historical development review. Its original search and access descriptions are retained. The [current reference audit](reference-audit.json) records this pass separately. CDC now states that Epi Info product development and technical assistance ended in September 2025; its mention below explains the published workflow and is not a current support recommendation. ASReview's current repository advertises version 3; historical model results below remain version-specific. See [references](references.md#epi-info).
+
 **EvidenceTrail · Evidence-informed product review · October 13, 2026**
 
 EvidenceTrail is intended to help researchers inspect extraction tables, compare reviewer records, and document decisions. The literature supports making these steps easier to follow. It does not establish that EvidenceTrail reduces errors, saves time, or improves the conclusions of a review.

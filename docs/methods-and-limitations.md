@@ -1,5 +1,7 @@
 # Methods and limitations
 
+Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
+
 EvidenceTrail provides deterministic table checks, recorded-progress summaries, reviewer comparison, and user-entered decision records. It does not assess the scientific content of an article or perform evidence extraction. This document describes version **0.3.0**, which includes a CSV-only browser demo and a full Python app.
 
 ## Unit of checking
@@ -40,7 +42,7 @@ One row can produce more than one finding. Conversely, one finding can refer to 
 
 The app uses `error` for missing required identifiers or fields, duplicate record IDs, and invalid status labels. It uses `review` for missing reported values, missing required source locations, and recorded reviewer disagreements. These are workflow labels, not judgments of scientific validity or importance.
 
-Finding row numbers follow spreadsheet numbering: row 1 is the header, and row 2 is the first data record. Distinct report counts use nonblank `report_id` values. They are not deduplicated study, programme, or system counts.
+Finding row numbers follow spreadsheet numbering: row 1 is the header, and row 2 is the first data record. Distinct report counts use nonblank `report_id` values. They are not deduplicated study, program, or system counts.
 
 ## What the report can establish
 
@@ -87,7 +89,7 @@ EvidenceTrail does not:
 - Decide whether a status such as `Not reported` or `Explicitly absent` is justified.
 - Check whether a source location exists or supports the claim.
 - Open URLs, verify link availability, or retrieve material from the internet.
-- Determine whether two reports describe the same study, programme, configuration, or system.
+- Determine whether two reports describe the same study, program, configuration, or system.
 - Verify that a reviewer actually completed a check or decide how to resolve disagreements.
 - Assess risk of bias, grade evidence, or establish that a review follows a reporting guideline.
 

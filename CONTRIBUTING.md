@@ -12,7 +12,7 @@ For a feature suggestion, explain the research task it supports and what a usefu
 
 ## Work locally
 
-Follow the installation instructions in the [README](README.md#run-the-full-app-locally). Make your changes on a branch in your fork or local checkout.
+Follow the installation instructions in the [README](README.md#quick-start). Make your changes on a branch in your fork or local checkout.
 
 Before submitting a change, run:
 

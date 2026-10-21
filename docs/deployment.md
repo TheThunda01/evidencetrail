@@ -1,10 +1,12 @@
 # Publishing the browser demo
 
+Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
+
 EvidenceTrail's browser demo is a static HTML, CSS, and JavaScript site. It can be published from this repository with **GitHub Pages**. No Streamlit account, Python server, database, API key, or separate hosting account is needed for this version.
 
 **Live app: [thethunda01.github.io/evidencetrail](https://thethunda01.github.io/evidencetrail/).** The public interface was checked on October 13, 2026 using the synthetic audit, clean-table, and reviewer examples, a CSV with renamed headers, decision downloads, session clearing, and desktop and phone-sized layouts.
 
-The browser demo accepts CSV files. The full Python app remains available for Excel input and audit ZIP exports; see the [local setup instructions](../README.md#run-the-full-app-locally).
+The browser demo accepts CSV files. The full Python app remains available for Excel input and audit ZIP exports; see the [local setup instructions](../README.md#quick-start).
 
 ## GitHub Pages settings
 
@@ -27,10 +29,10 @@ Keep all referenced site assets in `docs/` and use relative asset paths so the s
 To preview the static files locally from the repository root:
 
 ```sh
-python -m http.server 8000 --directory docs
+python -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Open `http://localhost:8000` in a browser. Serving the files over HTTP allows browser modules and example files to load correctly.
+Open `http://127.0.0.1:8000` in a browser. Serving the files over HTTP allows browser modules and example files to load correctly.
 
 Run the browser-core checks with Node.js 22 or later:
 
@@ -53,7 +55,7 @@ The browser parity checks compare defined examples with Python behavior. They ar
 3. Run the clean example. It should show no audit findings and 20 pending review records.
 4. Compare the reviewer examples. Expect 19 comparable pairs, 17 agreements, two differences, one first-only record, one second-only record, and two locator changes.
 5. Select a CSV with different column names, complete the mapping, and run its audit. Check that no request sends the selected file's contents to a server.
-6. Record a clearly labelled test decision. Download its CSV and JSON, and inspect the decision, rationale, source fingerprints, and mappings.
+6. Record a clearly labeled test decision. Download its CSV and JSON, and inspect the decision, rationale, source fingerprints, and mappings.
 7. Clear the session and confirm that loaded sources, results, and decisions are removed from the page. Refresh and confirm that they do not return from browser storage.
 
 Only CSV is supported in this deployment. Excel workbooks and audit ZIP bundles belong to the Python app and should not be advertised as browser features.

@@ -1,8 +1,10 @@
 # Getting started
 
+Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
+
 This guide takes you from the synthetic demonstration to auditing a table and comparing reviewer records.
 
-The **browser demo** works with CSV files entirely in your browser and needs no Python or Streamlit account. The **full Python app** also reads Excel workbooks and exports audit ZIP bundles. Follow the [local setup instructions](../README.md#run-the-full-app-locally) for the Python version, or the [hosting guide](deployment.md) to publish the browser demo with GitHub Pages.
+The **browser demo** works with CSV files entirely in your browser and needs no Python or Streamlit account. The **full Python app** also reads Excel workbooks and exports audit ZIP bundles. Follow the [local setup instructions](../README.md#quick-start) for the Python version, or the [hosting guide](deployment.md) to publish the browser demo with GitHub Pages.
 
 The two versions use the same required fields, status meanings, and comparison rules. Their layouts and available downloads differ.
 
