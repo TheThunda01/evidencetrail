@@ -468,5 +468,23 @@
       ],
       "corrections": []
     }
-  ]
+  ],
+  "maintenance_review_2026_10_21": {
+    "date": "2026-10-21",
+    "scope": "Targeted checks supporting current claims and maintenance. Earlier reference entries retain their historical access levels; sources not listed here were not newly full-text appraised.",
+    "checks": [
+      {
+        "id": "cochrane-05",
+        "url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-05",
+        "access": "official handbook, sections 5.2.1 and 5.5.2–5.5.5",
+        "finding": "Distinguishes studies from reports; describes independent extraction and planned reconciliation. Does not validate this implementation or its agreement rates."
+      },
+      {
+        "id": "rfc8493",
+        "url": "https://www.rfc-editor.org/rfc/rfc8493",
+        "access": "official RFC, section 5.4",
+        "finding": "Payload manifests check integrity against corruption; active-attack protection requires additional measures. EvidenceTrail remains a custom ZIP format, not a BagIt implementation."
+      }
+    ]
+  }
 }
