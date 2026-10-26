@@ -2,25 +2,25 @@
 
 Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
 
-EvidenceTrail provides deterministic table checks, recorded-progress summaries, reviewer comparison, and user-entered decision records. It does not assess the scientific content of an article or perform evidence extraction. This document describes version **0.3.0**, which includes a CSV-only browser demo and a full Python app.
+EvidenceTrail applies fixed rules to extraction tables, summarizes recorded progress, compares reviewers, and records user decisions. It does not assess an article's scientific content or extract evidence. This document describes version **0.3.0**, which includes a CSV-only browser demo and a full Python app.
 
 ## Unit of checking
 
 One data row represents one extracted field from a report. The row has a unique `record_id`, while `report_id` links related rows to the same report. Repeated report identifiers are expected and are not treated as duplicates.
 
-Excel is supported by the Python app only. Its audit applies to the selected sheet, not the entire workbook.
+Only the Python app supports Excel. It audits the selected sheet, not the entire workbook.
 
 ## Input boundaries
 
 Both versions support comma-separated UTF-8 CSV, including UTF-8 with a byte-order mark. Each accepts a maximum file size of 5 MiB, 10,000 data rows, and 50 columns. The Python app also supports Excel `.xlsx` workbooks, whose combined expanded contents must not exceed 25 MiB.
 
-The selected Excel sheet must contain values rather than formulas. Formula cells cause the input to be rejected; the app does not calculate formulas or substitute cached results. It does not execute workbook macros or follow external workbook links.
+The selected Excel sheet must contain values rather than formulas. The app rejects sheets with formula cells; it does not calculate formulas or substitute cached results. It does not execute workbook macros or follow external workbook links.
 
-Workbook XML is checked with `defusedxml` before loading. DTD declarations, entity definitions, and external entities are rejected. These checks limit known input risks; they are not a security certification of an uploaded file or its hosting environment.
+Before loading a workbook, the app checks its XML with `defusedxml` and rejects DTD declarations, entity definitions, and external entities. These checks limit known input risks; they are not a security certification of an uploaded file or its hosting environment.
 
-Required headers and status labels are documented in the [data dictionary](data-dictionary.md). Surrounding whitespace is ignored for comparisons; case and internal spacing remain significant. Literal strings such as `NA` and `null` remain text, so the application does not silently reinterpret those values as blank cells.
+The [data dictionary](data-dictionary.md) defines the required headers and status labels. Comparisons ignore surrounding whitespace but preserve case and internal spacing. Literal strings such as `NA` and `null` remain text, so the application does not silently reinterpret those values as blank cells.
 
-The interface maps seven required fields to explicitly selected source columns. Exact canonical headers can be suggested; synonyms, meanings, and status translations are not inferred. Every required field needs a different source column, and mappings that collide with retained column names are rejected. Mapping operates on a copy without changing values or row order.
+You select a source column for each of the seven required fields. The interface can suggest exact canonical headers but does not infer synonyms, meanings, or status translations. Each required field needs a different source column. The app rejects mappings that collide with retained column names and works on a copy, preserving values and row order.
 
 ## Audit checks
 
@@ -46,7 +46,7 @@ Finding row numbers follow spreadsheet numbering: row 1 is the header, and row 2
 
 ## What the report can establish
 
-Audit outputs record the problems detected by the current rules for the input provided. They identify source files and mapping choices; the Python report also records the application version and selected Excel worksheet when relevant. The SHA-256 fingerprint identifies the input file's bytes, helping distinguish file versions. It does not authenticate an author, establish the origin of research data, or confirm scientific accuracy.
+Audit outputs list the problems that the current rules detect in the supplied table. They identify source files and mapping choices; the Python report also records the application version and selected Excel worksheet when relevant. The SHA-256 fingerprint identifies the input file's bytes, helping distinguish file versions. It does not authenticate an author, establish the origin of research data, or confirm scientific accuracy.
 
 The synthetic demonstration has 20 data rows and five planted findings, described in the [expected-findings file](../examples/expected_findings.json). That known example makes the intended behavior easier to inspect; it is not evidence that the tool detects every possible table problem.
 
@@ -66,7 +66,7 @@ With no required locators the rate is undefined (`null` in JSON, blank in CSV). 
 
 ## Reviewer comparison and decisions
 
-The interface matches two tables by `(report_id, field)`. Missing keys are excluded. If a key occurs more than once on either side, all rows with that key on both sides are excluded. The app does not choose among ambiguous matches. Usable keys found only on one side are reported separately.
+The interface matches two tables by `(report_id, field)`. It excludes rows with missing keys. If a key occurs more than once on either side, it excludes all rows with that key on both sides. It reports usable keys found only on one side separately and never chooses among ambiguous matches.
 
 Matched rows agree only when their `value` and `evidence_status` match after trimming surrounding whitespace. Case and internal spacing remain significant. Different locators are reported independently of answer agreement. Comparison and decision exports contain this trimmed text, rather than the original cell formatting. This is a text comparison, not semantic interpretation, an accuracy estimate, or an agreement statistic adjusted for chance. Review statuses, reviewer names, and notes do not determine the comparison result.
 
@@ -86,7 +86,7 @@ Nonblank agreement is calculated separately for each compared column, currently 
 \text{Nonblank agreement}=\frac{\text{exact nonblank matches}}{\text{pairs nonblank on both sides}}
 ```
 
-The summary also counts first-reviewer-only blanks, second-reviewer-only blanks, and joint blanks. These categories make it possible to account for every matched pair without treating a missing entry as an answer. If no pairs contain text on both sides, the rate is undefined rather than zero.
+The summary also counts pairs with a blank for only the first reviewer, only the second reviewer, or both reviewers. Together with pairs that contain text on both sides, these categories account for every matched pair without treating a missing entry as an answer. If no pairs contain text on both sides, the rate is undefined rather than zero.
 
 The overall exact-match count retains its original definition: all compared columns must match within a pair, and matching blanks count as text matches. It therefore answers a different question from nonblank agreement. A blank `value` may be appropriate for statuses such as `Not reported` or `Not applicable`; the audit rules and source review determine whether a particular blank needs correction.
 
@@ -94,7 +94,9 @@ These are descriptive counts of the supplied records. Matching text does not est
 
 A researcher can select either reviewer's result, enter a different result, or defer. Every decision requires a name or identifier and rationale. Selected results must meet the documented status, value, and locator requirements. These checks do not establish source support.
 
-Decisions are bound to both input-file hashes, mappings, and selected worksheets where relevant. Changing the comparison clears the current decision log; returning to the previous inputs does not restore it. Saving a decision for a pair replaces its previous decision in the current session. It does not create an append-only history or rewrite the input tables. Recorded decisions do not automatically mark source rows as verified. Downloaded files capture the state at the time of export and can subsequently be edited outside the app.
+The app links decisions to both input-file hashes, mappings, and selected worksheets where relevant. Changing the comparison clears the current decision log; returning to the previous inputs does not restore it. Saving a decision for a pair replaces that pair's previous decision.
+
+The app does not preserve every revision, rewrite input tables, or automatically mark source rows as verified. Downloads capture the current state; users can later edit them outside the app.
 
 Sessions are temporary. Download needed decisions before leaving or changing comparison inputs. The clear control is **Clear session** in the browser and **Clear this session** in Python. Neither version provides persistent storage, a decision-import workflow, or guaranteed recovery after the page or app closes.
 
@@ -111,7 +113,7 @@ EvidenceTrail does not:
 - Verify that a reviewer actually completed a check or decide how to resolve disagreements.
 - Assess risk of bias, grade evidence, or establish that a review follows a reporting guideline.
 
-In particular, **zero findings means that no problems were detected by these checks**. It does not mean that the table is ready for publication or that the evidence has been validated.
+In particular, **zero findings means that these checks detected no problems**. It does not establish that the table is ready for publication or that the evidence is valid.
 
 ## Data handling
 

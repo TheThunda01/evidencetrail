@@ -2,7 +2,7 @@
 
 **A small research tool for checking extraction tables before the next review step.**
 
-An extraction table stores information taken from source reports, one defined item per row. EvidenceTrail helps researchers inspect these tables, compare two reviewers' records, and document the decisions that follow. It finds missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements, then turns those checks into downloadable reports.
+EvidenceTrail checks extraction tables for missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements. An extraction table stores information from source reports, one defined item per row. Researchers can inspect the findings, compare two reviewers' records, and download reports of their checks and decisions.
 
 **New here? [Read the project's background, rationale, and key themes](docs/project-context.md).**
 
@@ -16,20 +16,18 @@ This is an early working prototype, version **0.3.0**. The included examples con
 
 ## Why this project
 
-Evidence extraction involves more than copying an answer into a spreadsheet. A useful record also needs a clear connection to a report, an honest account of what the source says, and a way to track review. Small inconsistencies in those records can make later synthesis harder.
-
-EvidenceTrail makes a first pass at those inconsistencies visible. A researcher still decides what needs correction and verifies the evidence against the source.
+An extracted answer needs a source, a clear account of what that source says, and a record of review. Missing or inconsistent details can make later synthesis harder. EvidenceTrail flags some of these problems so a researcher can check the source and decide what to correct.
 
 ## What it does
 
-- Reads extraction tables, with explicit mapping from your column names to seven required fields.
+- Reads extraction tables after you map your column names to seven required fields.
 - Checks identifiers, status labels, values, and source locations, with explanations and suggested next steps.
 - Summarizes recorded review progress and evidence completeness by extraction field.
-- Downloads field-level status counts and source-locator coverage with explicit required/provided denominators.
+- Exports status counts by field and source-locator coverage, showing how many rows require a locator and how many provide one.
 - Compares two reviewer tables by report and field, keeping differences in answers separate from differences in source locations.
 - Shows how much of each table could be paired and how often nonblank entries match, with the counts behind each rate.
 - Records your choice, name or identifier, and reason for a reviewer decision, while preserving both submitted answers.
-- Exports findings and reviewer decision records with input-file fingerprints and other provenance. The Python app also provides a ZIP archive containing audit reports.
+- Exports findings and reviewer decisions with input-file fingerprints and other details about their source. The Python app also provides a ZIP archive of audit reports.
 - Adds a SHA-256 file manifest (a list of exact-byte fingerprints) to Python audit bundles, with an offline verifier for missing or changed payloads.
 - Includes a 20-row demonstration with five planted findings, a clean table, a blank template, and paired reviewer examples.
 
@@ -44,7 +42,9 @@ There are two ways to use EvidenceTrail:
 | Processing | In your browser; selected file contents are not uploaded | On the machine running the Python app |
 | Setup | Static site, designed for GitHub Pages | Local Python installation |
 
-JSON means JavaScript Object Notation, the structured-text format used for several exports. A mebibyte (MiB) is 1,048,576 bytes. Both versions leave your input files unchanged and use temporary working state. Each file can be up to **5 MiB**, with up to **10,000 data rows** and **50 columns**. In the Python app, Excel workbooks also have a 25 MiB limit on expanded contents, and the selected sheet must contain values rather than formulas.
+Both versions leave your input files unchanged and keep working data temporarily in memory. Each file can be up to **5 MiB**, with up to **10,000 data rows** and **50 columns**. A mebibyte (MiB) is 1,048,576 bytes. In the Python app, Excel workbooks also have a 25 MiB limit on expanded contents, and the selected sheet must contain values rather than formulas.
+
+Several exports use JavaScript Object Notation (JSON), a structured-text format.
 
 The [live demo](https://thethunda01.github.io/evidencetrail/) is published from this repository with GitHub Pages. The [hosting guide](docs/deployment.md) explains how it is maintained. See [getting started](docs/getting-started.md) for the differences between versions.
 
@@ -138,11 +138,17 @@ The [methods and limitations](docs/methods-and-limitations.md) explain exactly w
 
 Choose **Compare reviewers** and load the reviewer demo: **Load reviewer demo** in each browser panel, or **Demo reviewers** in the Python app. The underlying [reviewer_a.csv](examples/reviewer_a.csv) and [reviewer_b.csv](examples/reviewer_b.csv) contain 19 comparable pairs: 17 agree on answer and evidence status, and two differ. Each table also has one unmatched record. Two matched pairs use different source locations.
 
-The comparison summaries keep two questions separate. **Pairing coverage** is the number of comparable pairs divided by all submitted rows on that side, including rows excluded because their keys are missing or duplicated. For the demo, that is 19 of 20 rows, or 95%, for each reviewer. **Nonblank agreement** compares each column separately: `value` and `evidence_status`. Its denominator includes only matched pairs with text on both sides; one-sided blanks and joint blanks are counted separately. An empty denominator produces an undefined rate, not zero.
+The summaries answer two questions: how much of each table could be compared, and how often nonblank entries matched.
 
-The original exact-match count still includes pairs whose compared entries match even when some entries are blank. A blank answer can be appropriate for `Not reported` or `Not applicable`, so blankness alone is not an extraction error. These summaries describe the submitted text, not extraction accuracy, reviewer reliability, or readiness for synthesis. See the [metric definitions](docs/methods-and-limitations.md#comparison-metrics) before interpreting a percentage.
+**Pairing coverage** divides the number of comparable pairs by all submitted rows on that side, including rows excluded because their keys are missing or duplicated. For the demo, that is 19 of 20 rows, or 95%, for each reviewer.
 
-For a matched pair, you can use either reviewer's answer, enter a different answer, or defer the decision. Each saved decision needs a reviewer name or identifier and a reason. Saving again for the same pair replaces its current decision in the session. Download a copy before clearing the session or leaving the app; it is not a persistent research database or an append-only history.
+**Nonblank agreement** compares each column separately: `value` and `evidence_status`. Its denominator includes only matched pairs with text on both sides. The summary counts one-sided blanks and joint blanks separately. An empty denominator produces an undefined rate, not zero.
+
+The exact-match count includes pairs whose compared entries match, even when some entries are blank. A blank answer can be appropriate for `Not reported` or `Not applicable`, so blankness alone is not an extraction error. These summaries describe the submitted text, not extraction accuracy, reviewer reliability, or readiness for synthesis. See the [metric definitions](docs/methods-and-limitations.md#comparison-metrics) before interpreting a percentage.
+
+For a matched pair, you can use either reviewer's answer, enter a different answer, or defer the decision. Each saved decision needs a reviewer name or identifier and a reason.
+
+Saving again for the same pair replaces its current decision. Download a copy before clearing the session or leaving the app. The app does not maintain a persistent research database or preserve every earlier decision.
 
 Decisions do not alter the source tables or automatically mark their rows as `Verified`. A recorded decision is your documented choice, not source verification performed by the app.
 
@@ -200,7 +206,7 @@ The browser parity tests compare known examples with the Python implementation. 
 
 The [research review](docs/research-review-2026-10-13.md) explains the scientific and practical guidance behind the expansion, including where established tools already address these needs. This is an evidence-informed design, not a validated intervention.
 
-Future work could add configurable validation schemas, additional table structures, and carefully evaluated Portable Document Format (PDF) or artificial intelligence (AI) assistance. A user pilot should assess mapping usability and how people find and resolve known issues before claims are made about research benefits.
+Future work could add configurable validation rules, support for other table structures, and carefully evaluated Portable Document Format (PDF) or artificial intelligence (AI) assistance. Before claiming research benefits, a user pilot should assess whether people can map columns and find and resolve known issues.
 
 See [CHANGELOG.md](CHANGELOG.md) for the version history.
 

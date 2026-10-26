@@ -4,9 +4,9 @@ Terminology: [glossary](glossary.md). For assumptions and their limits, see [ass
 
 ## The question behind the project
 
-When a review team has collected answers from research reports, what still needs checking before those answers are used in a synthesis?
+After a review team collects answers from research reports, what should it check before combining the evidence?
 
-An extraction spreadsheet can look complete while hiding missing source locations, inconsistent labels, duplicate records, or unresolved reviewer differences. EvidenceTrail makes those issues visible and keeps the next decision connected to the submitted records. It is a companion to source review, not an automated judge of the evidence.
+An extraction spreadsheet can look complete yet contain missing source locations, inconsistent labels, duplicate records, or unresolved reviewer differences. EvidenceTrail flags these issues and connects review decisions to the submitted records. Researchers still need to check the underlying sources.
 
 ## Why build it?
 
@@ -25,7 +25,9 @@ The browser version processes CSV files locally in the browser. The Python app a
 
 ## Why it matters—and what it cannot tell us
 
-The practical aim is to help a reviewer find a record, understand why it was flagged, return to its source, and document the decision. Matching text can still be wrong, and different wording can mean the same thing. A clean audit, a high agreement rate, or a row marked `Verified` does not establish scientific accuracy. Benefits such as fewer extraction errors or faster reviews would need a separate evaluation.
+EvidenceTrail aims to help reviewers find a flagged record, understand the problem, check the source, and document their decision.
+
+Matching text can still be wrong, and different wording can mean the same thing. A clean audit, a high agreement rate, or a row marked `Verified` does not establish scientific accuracy. Claims of fewer extraction errors or faster reviews would require a separate evaluation.
 
 **Key themes:** transparent assumptions, explicit denominators, careful handling of missing information, human judgment, and reproducible records.
 

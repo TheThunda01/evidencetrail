@@ -4,13 +4,13 @@ Terminology: [glossary](glossary.md). For assumptions and their limits, see [ass
 
 ## Where this fits
 
-Use EvidenceTrail between preparing an extraction table and discussing corrections or disagreements with another reviewer. It helps expose the table's structure and preserves a reviewable export. It does not read the underlying reports. The new bundle verifier adds a handoff check: are the exported files still the bytes described by their manifest?
+Use EvidenceTrail to check an extraction table before discussing corrections or disagreements with another reviewer. It flags table problems and exports the findings for review. It does not read the underlying reports. The bundle verifier checks whether exported files still match the bytes listed in their manifest.
 
 ## Input and output contract
 
 The app accepts UTF-8 CSV and, in Python, one selected XLSX sheet. The seven required fields, allowed statuses, file limits, and comparison keys are defined in the [data dictionary](data-dictionary.md) and [methods](methods-and-limitations.md). Mapping changes the working column names, not source values.
 
-A Python audit ZIP now contains five payloads plus `artifact-manifest.json`. The payloads remain `audit-summary.md`, `findings.csv`, `source-manifest.json`, `review-progress.json`, and `field-completeness.csv`. The artifact manifest uses schema `evidencetrail-artifacts/1`, SHA-256, and each payload's path and byte count. It does not hash itself. The input-file fingerprint remains a separate field in the source manifest.
+A Python audit ZIP contains five payload files plus `artifact-manifest.json`. The payload files are `audit-summary.md`, `findings.csv`, `source-manifest.json`, `review-progress.json`, and `field-completeness.csv`. The artifact manifest uses schema `evidencetrail-artifacts/1`, SHA-256, and each payload's path and byte count. It does not hash itself. The input-file fingerprint remains a separate field in the source manifest.
 
 `python -m evidencetrail.verify_bundle FILE.zip` reads at most 64 MiB of compressed data, rejects archives larger than 128 MiB when expanded, limits the manifest to 64 KiB, and never extracts members to disk. It requires exactly the six documented members, unique names, and a valid manifest. Exit `0` means all five payload hashes and lengths match; exit `1` means a readable package has a mismatch; exit `2` means the input or package format could not be verified. The JSON output includes the entire ZIP's fingerprint and individual mismatch codes. Old five-member bundles have no integrity manifest and are explicitly unsupported: regenerate them from the original table.
 
@@ -29,7 +29,7 @@ python -m evidencetrail.verify_bundle evidencetrail-demo.zip
 
 Use a new output path; the example script refuses to overwrite a file. It audits the existing synthetic 20-row fixture and writes a ZIP. A [pinned synthetic bundle](../examples/audit_bundle_v1.zip) and its [verification output](../examples/bundle-verification.json) are also included. The verifier should report `consistent: true` and `checked_payloads: 5`. That outcome means the package is internally consistent, not that its five planted findings were resolved. A reviewer can inspect the findings, return to the fictional or real source as appropriate, and maintain corrections in the team's own records.
 
-The [additional example receipt](../examples/bundle-external-verification.json) applies the optional check to the same pinned synthetic ZIP. Its expected digest appears in the README command. This demonstrates format and behavior only: a reference distributed next to a package is not independently trustworthy by virtue of being a different file.
+The [additional example receipt](../examples/bundle-external-verification.json) applies the optional check to the same pinned synthetic ZIP. Its expected digest appears in the README command. This example demonstrates the format and behavior only. A reference supplied alongside a package is not independently trustworthy merely because it is in a separate file.
 
 ## Checks before relying on a result
 
@@ -43,9 +43,11 @@ When using the external-reference option, establish where the expected value cam
 
 ## Known limits
 
-The manifest is unsigned. Someone can change both a payload and its digest, producing a consistent package. Verification does not prove authorship, an unbroken history, source authenticity, extraction accuracy, or research quality. Cyclic redundancy check (CRC) and Secure Hash Algorithm (SHA) checks are file-integrity checks only. The app's current decision log is replaceable session state, not an append-only audit trail. A missing locator may warrant attention; a supplied locator is not proof of support.
+The manifest is unsigned: someone can change both a payload and its digest to produce a consistent package. Verification therefore does not prove authorship, an unbroken history, source authenticity, extraction accuracy, or research quality. Cyclic redundancy check (CRC) and Secure Hash Algorithm (SHA) checks assess file integrity only.
 
-Whole-ZIP fingerprints are sensitive to packaging bytes, including ZIP metadata: a re-created archive can mismatch even when payload content is equivalent. Conversely, a matching digest says nothing about whether a human extraction or recorded judgment was correct. The option does not add digital signatures, identity verification, or an authenticated delivery channel.
+Users can replace decisions in the current session; the app does not preserve every earlier decision. A missing locator may need attention, but a supplied locator does not prove that the source supports the answer.
+
+Whole-ZIP fingerprints include packaging bytes and ZIP metadata. Re-creating an archive can therefore change its fingerprint even when its payload content is equivalent. A matching digest cannot establish whether an extraction or recorded judgment was correct. The option does not add digital signatures, identity verification, or an authenticated delivery channel.
 
 ## Next improvements
 
