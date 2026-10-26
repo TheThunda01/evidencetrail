@@ -86,11 +86,11 @@ The **Audit a table** workspace opens with **Demo with five issues** selected. R
 To make and check a synthetic audit bundle from the command line:
 
 ```sh
-python scripts/bundle_example.py /tmp/evidencetrail-demo.zip
-python -m evidencetrail.verify_bundle /tmp/evidencetrail-demo.zip
+python scripts/bundle_example.py evidencetrail-demo.zip
+python -m evidencetrail.verify_bundle evidencetrail-demo.zip
 ```
 
-Choose a new output path: the example builder refuses to overwrite a file. The verifier checks five payload files against an unsigned manifest; it does not authenticate the reviewer or the evidence.
+The relative output path works from the repository root on Windows, macOS, and Linux. Choose a new output path: the example builder refuses to overwrite a file. The verifier checks five payload files against an unsigned manifest; it does not authenticate the reviewer or the evidence.
 
 To compare a bundle with a separately obtained expected ZIP fingerprint, add `--expected-sha256`. This command illustrates the option using the pinned synthetic example:
 
@@ -167,6 +167,7 @@ The optional whole-ZIP check reports `external_reference.matches` separately fro
 | [Reference list](docs/references.md) | Complete citations and the role of each source |
 | [Reference audit](docs/reference-audit.json) | Source checks, access levels, and remaining limitations |
 | [Editorial review](docs/review-2026-10-20.md) | Corrections and checks completed on October 20, 2026 |
+| [Documentation and workflow review](docs/review-2026-10-26.md) | Portable example commands and current validation |
 | [Maintenance and source review](docs/review-2026-10-21.md) | Current fixes, source checks, validation, and remaining limits |
 | [Project context](docs/project-context.md) | Background, rationale, and key themes |
 | [Biology and concepts](docs/biology-and-concepts.md) | Studies, reports, missingness, agreement, and certainty |

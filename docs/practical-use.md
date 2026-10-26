@@ -23,8 +23,8 @@ This is a custom EvidenceTrail package, not an implementation of the BagIt packa
 From the repository root:
 
 ```sh
-python scripts/bundle_example.py /tmp/evidencetrail-demo.zip
-python -m evidencetrail.verify_bundle /tmp/evidencetrail-demo.zip
+python scripts/bundle_example.py evidencetrail-demo.zip
+python -m evidencetrail.verify_bundle evidencetrail-demo.zip
 ```
 
 Use a new output path; the example script refuses to overwrite a file. It audits the existing synthetic 20-row fixture and writes a ZIP. A [pinned synthetic bundle](../examples/audit_bundle_v1.zip) and its [verification output](../examples/bundle-verification.json) are also included. The verifier should report `consistent: true` and `checked_payloads: 5`. That outcome means the package is internally consistent, not that its five planted findings were resolved. A reviewer can inspect the findings, return to the fictional or real source as appropriate, and maintain corrections in the team's own records.
