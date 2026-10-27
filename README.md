@@ -16,6 +16,8 @@ This is an early working prototype, version **0.3.0**. The included examples con
 
 ## Why this project
 
+EvidenceTrail supports the human research workflow in [From biological measurements to better experiments](https://github.com/TheThunda01/TheThunda01/blob/main/PROJECT_GUIDE.md). It makes extracted answers, source locations, and recorded disagreements inspectable so readers can question the evidence behind a conclusion. Scientific interpretation remains with the reviewer.
+
 An extracted answer needs a source, a clear account of what that source says, and a record of review. Missing or inconsistent details can make later synthesis harder. EvidenceTrail flags some of these problems so a researcher can check the source and decide what to correct.
 
 ## What it does
