@@ -2,6 +2,10 @@
 
 This file records user-facing changes. Version 0.1.0 is the initial working prototype.
 
+## Unreleased — workflow explanation, October 27, 2026
+
+- Added an editable draw.io diagram, SVG/PNG previews, and a reproduction command explaining pairing coverage, agreement denominators, and human decisions. The illustration uses the existing synthetic fixtures; audit rules and application behavior are unchanged.
+
 ## Unreleased — advancement round, October 20, 2026
 
 - Round 2 adds an optional independently supplied expected ZIP SHA-256. Default receipts stay unchanged; an external-reference mismatch is reported separately and gives CLI exit 1.

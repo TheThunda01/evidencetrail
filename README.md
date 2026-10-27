@@ -102,6 +102,8 @@ For an actual handoff, obtain the expected digest through an independently trust
 
 ## Example results
 
+The [editable reviewer-workflow diagram](docs/reviewer-workflow.md) separates pairing coverage, agreement denominators, source-location differences, and human decisions using the synthetic example below.
+
 The synthetic audit contains 20 rows and five deliberately planted findings. The reviewer example yields 19 comparable pairs, 17 exact agreements and two differences. These are software fixtures, not research results. The bundle verifier reports five checked payloads and `consistent: true` for an unmodified new bundle; changing a payload without updating its manifest produces a mismatch.
 
 ## Practical use and limitations
