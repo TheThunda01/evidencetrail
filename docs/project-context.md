@@ -2,6 +2,10 @@
 
 Terminology: [glossary](glossary.md). For assumptions and their limits, see [assumptions](assumptions.md).
 
+## Where this fits
+
+[Review Compass](https://github.com/TheThunda01/review-compass) addresses the earlier task of making a review question and search plan explicit. EvidenceTrail addresses checks on extraction records. They are complementary demonstrations in the portfolio; no automatic transfer between them or validated combined review workflow is implemented. Return to the [portfolio guide](https://github.com/TheThunda01/TheThunda01/blob/main/PROJECT_GUIDE.md).
+
 ## The question behind the project
 
 After a review team collects answers from research reports, what should it check before combining the evidence?
