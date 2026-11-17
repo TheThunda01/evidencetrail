@@ -227,3 +227,44 @@ test("Documented label arrays cannot be changed accidentally", () => {
   assert.equal(REVIEW_STATUSES.length, 3);
   assert.throws(() => REQUIRED_COLUMNS.push("extra"));
 });
+
+test("failed replacements keep existing comparisons, mappings and decisions", async () => {
+  const { replaceSource } = await import("../docs/web-source.mjs");
+  const source = { filename: "original.csv", table: { headers: ["record_id"] } };
+  const state = { comparison: { sources: [source, source], mappings: [{}, {}], result: { pairs: [] }, decisions: [{ choice: "Defer" }] } };
+  const { sources, mappings, decisions, result } = state.comparison;
+
+  await assert.rejects(replaceSource(state, "comparison", 0, async () => {
+    throw new Error("Invalid CSV");
+  }), /Invalid CSV/);
+  assert.equal(state.comparison.sources[0], source);
+  assert.equal(state.comparison.mappings, mappings);
+  assert.equal(state.comparison.result, result);
+  assert.equal(state.comparison.decisions, decisions);
+
+  const newer = { ...source, filename: "replacement.csv" };
+  await replaceSource(state, "comparison", 0, async () => newer);
+  assert.equal(sources[0], newer);
+  assert.equal(sources[1], source);
+  assert.equal(state.comparison.result, null);
+  assert.deepEqual(state.comparison.decisions, []);
+});
+
+test("a late file read cannot replace a newer choice or a cleared session", async () => {
+  const { replaceSource } = await import("../docs/web-source.mjs");
+  const state = { audit: {} };
+  const source = { table: { headers: ["field"] } };
+  let finish;
+  const slowRead = () => new Promise(resolve => { finish = resolve; });
+  const first = replaceSource(state, "audit", 0, slowRead);
+  await replaceSource(state, "audit", 0, async () => source);
+  finish({ ...source });
+  assert.equal(await first, false);
+  assert.equal(state.audit.source, source);
+
+  const afterClear = replaceSource(state, "audit", 0, slowRead);
+  state.audit = { source: null };
+  finish(source);
+  assert.equal(await afterClear, false);
+  assert.equal(state.audit.source, null);
+});
