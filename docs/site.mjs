@@ -1,4 +1,5 @@
-import {REQUIRED_COLUMNS, EVIDENCE_STATUSES, parseCSV, identityMapping, applyMapping, audit, compare, csvExport} from './web-core.mjs';
+import {REQUIRED_COLUMNS, EVIDENCE_STATUSES, parseCSV, applyMapping, audit, compare, csvExport} from './web-core.mjs';
+import { replaceSource } from './web-source.mjs';
 
 const APP_VERSION = '0.3.0';
 const LABELS = {record_id:'Record ID',report_id:'Report ID',field:'Extraction field',value:'Extracted value',evidence_status:'Evidence status',source_locator:'Source locator',review_status:'Review status'};
@@ -30,8 +31,17 @@ function auditProvenance() { const source=state.audit.source; return {applicatio
 function comparisonProvenance() { const current=state.comparison; return {application_version:APP_VERSION,compared_columns:['value','evidence_status'],first:{filename:current.sources[0].filename,sha256:current.sources[0].sha256,mapping:{...current.mappings[0]}},second:{filename:current.sources[1].filename,sha256:current.sources[1].sha256,mapping:{...current.mappings[1]}},key_columns:['report_id','field']}; }
 function clearComparison() { state.comparison.result=null; state.comparison.decisions=[]; }
 async function loadSample(workflow,index,key) { const bytes=new TextEncoder().encode(examples[key].csv); await load(workflow,index,()=>sourceFrom(examples[key].filename,bytes)); }
-async function load(workflow,index,read) { const current=workflow==='audit'?state.audit:state.comparison; const token=Symbol(); if(workflow==='audit') { current.token=token; current.source=null; current.result=null; } else { current.tokens??=[]; current.tokens[index]=token; current.sources[index]=null; clearComparison(); } render(workflow); try { const source=await read(); if((workflow==='audit'?current.token:current.tokens[index])!==token) return; if(workflow==='audit') {current.source=source;current.mapping=identityMapping(source.table.headers);} else {current.sources[index]=source;current.mappings[index]=identityMapping(source.table.headers);} render(workflow); } catch(error) { if((workflow==='audit'?current.token:current.tokens[index])===token) notice($(workflow==='audit'?'audit-panel':'compare-panel'),error.message||'The CSV could not be read.',true); } }
-function sourceControls(parent,workflow,index,samples,label) { const actions=node('div','','actions'); if(examples) for(const [name,key] of samples) append(actions,button(name,()=>loadSample(workflow,index,key),'small-button')); append(parent,actions); const file=input('file'); file.accept='.csv,text/csv'; file.className=''; file.addEventListener('change',event=>{const chosen=event.currentTarget.files[0]; if(!chosen) return; load(workflow,index,async()=>{ if(!chosen.name.toLowerCase().endsWith('.csv')) throw Error('Choose a UTF-8 CSV file ending in .csv. Excel files can be opened in the Python app.'); if(chosen.size>MAX_BYTES) throw Error('This CSV exceeds the 5 MiB limit.'); return sourceFrom(chosen.name,await chosen.arrayBuffer()); });}); const upload=field(label,file); upload.className+=' file-field'; parent.append(upload); }
+async function load(workflow, index, read) {
+  const panel = $(workflow === 'audit' ? 'audit-panel' : 'compare-panel');
+  const target = () => panel.querySelector(`[data-upload-slot="${index}"]`);
+  target()?.querySelector('[role="alert"]')?.remove();
+  try {
+    if (await replaceSource(state, workflow, index, read)) render(workflow);
+  } catch (error) {
+    notice(target() || panel, error.message || 'The CSV could not be read.', true);
+  }
+}
+function sourceControls(parent,workflow,index,samples,label) { const actions=node('div','','actions'); if(examples) for(const [name,key] of samples) append(actions,button(name,()=>loadSample(workflow,index,key),'small-button')); append(parent,actions); const file=input('file'); file.accept='.csv,text/csv'; file.className=''; file.addEventListener('change',event=>{const chosen=event.currentTarget.files[0]; if(!chosen) return; load(workflow,index,async()=>{ if(!chosen.name.toLowerCase().endsWith('.csv')) throw Error('Choose a UTF-8 CSV file ending in .csv. Excel files can be opened in the Python app.'); if(chosen.size>MAX_BYTES) throw Error('This CSV exceeds the 5 MiB limit.'); return sourceFrom(chosen.name,await chosen.arrayBuffer()); });}); const upload=field(label,file); upload.className+=' file-field'; upload.dataset.uploadSlot=String(index); parent.append(upload); }
 function render(workflow) { if(workflow==='audit') renderAudit(); else renderComparison(); }
 function renderAudit() {
   const panel=$('audit-panel'); panel.replaceChildren(); const current=state.audit;
@@ -83,7 +93,26 @@ function renderComparisonResults(parent) {
   const details=node('details','','details-box');details.open=true;
   append(details,node('summary','Pairing coverage and nonblank agreement'),node('p','Coverage uses all submitted rows, including rows blocked by missing or duplicated keys. Blank cells are counted separately from agreement on nonblank text.','help'));
   const percent=value=>value===null?'Undefined':`${(100*value).toFixed(1)}%`;
-  table(details,result.metrics.pairing.map(item=>({...item,reviewer:item.reviewer==='left'?'First':'Second',matched_submitted:`${item.matched_rows} / ${item.input_rows}`,coverage:percent(item.coverage_fraction)})),[['reviewer','Reviewer'],['matched_submitted','Matched / submitted'],['coverage','Coverage'],['unmatched_rows','Unmatched rows'],['blocked_rows','Blocked rows']]);
+  const coverage = node('figure', '', 'pairing-coverage');
+  append(coverage, node('figcaption', 'How many submitted rows could be paired?'));
+  for (const side of result.metrics.pairing) {
+    const reviewer = side.reviewer === 'left' ? 'First reviewer' : 'Second reviewer';
+    const row = node('div', '', 'coverage-row');
+    const label = side.input_rows
+      ? `${side.matched_rows} of ${side.input_rows} rows paired (${percent(side.coverage_fraction)})`
+      : 'No rows submitted';
+    append(row, append(node('div', '', 'coverage-label'), node('strong', reviewer), node('span', label)));
+    if (side.input_rows) {
+      const track = node('div', '', 'coverage-track');
+      track.setAttribute('aria-hidden', 'true');
+      const filled = node('span');
+      filled.style.width = `${side.coverage_fraction * 100}%`;
+      append(row, append(track, filled));
+    }
+    append(row, node('p', `${side.unmatched_rows} unmatched · ${side.blocked_rows} blocked`, 'help'));
+    coverage.append(row);
+  }
+  details.append(coverage);
   table(details,result.metrics.fields.map(item=>({...item,exact_nonblank:`${item.exact_matches_both_nonblank} / ${item.both_nonblank}`,agreement:percent(item.agreement_fraction_both_nonblank)})),[['field','Compared field'],['exact_nonblank','Exact / both nonblank'],['agreement','Nonblank agreement'],['left_blank_only','First blank only'],['right_blank_only','Second blank only'],['both_blank','Both blank']]);
   append(details,node('p','Raw exact matches can include jointly blank cells. These field rates describe recorded text, not extraction accuracy or reviewer reliability. A blank value may be appropriate for Not reported or Not applicable. An empty denominator gives an undefined rate.','help'),button('Download comparison metrics JSON',()=>jsonDownload('evidencetrail-comparison-metrics.json',{format:'EvidenceTrail comparison metrics',format_version:1,application_version:APP_VERSION,provenance,interpretation:'Descriptive input coverage and nonblank exact-text agreement; not source verification or reviewer reliability.',metrics:result.metrics})));
   parent.append(details);

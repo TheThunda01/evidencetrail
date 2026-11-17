@@ -2,7 +2,9 @@
 
 **A small research tool for checking extraction tables before the next review step.**
 
-EvidenceTrail checks extraction tables for missing source locations, inconsistent status labels, duplicate record IDs, and recorded disagreements. An extraction table stores information from source reports, one defined item per row. Researchers can inspect the findings, compare two reviewers' records, and download reports of their checks and decisions.
+Use **Audit a table** to find missing source locations, conflicting status labels, and duplicate record IDs. Each row represents one item extracted from a report.
+
+Use **Compare reviewers** to line up two extraction tables by report and field. The coverage chart shows how many rows from each reviewer could be paired. Inspect their answers side by side, record a decision, and download the log before closing the page. If a replacement CSV fails to load in the browser, the current comparison and its decisions stay available.
 
 **New here? [Read the project's background, rationale, and key themes](docs/project-context.md).**
 
